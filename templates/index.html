@@ -1,0 +1,617 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FinTrack – Smart Income & Expense Tracker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ─── THEME TOKENS ─── */
+    :root {
+      --green: #22c55e;
+      --green-dark: #16a34a;
+      --green-light: #dcfce7;
+      --green-light-text: #15803d;
+      --red: #ef4444;
+      --blue: #3b82f6;
+      --purple: #8b5cf6;
+
+      /* Light defaults */
+      --bg:          #f8fafc;
+      --bg-section:  #ffffff;
+      --bg-alt:      #f1f5f9;
+      --surface:     #ffffff;
+      --border:      #e2e8f0;
+      --text:        #0f172a;
+      --text-muted:  #64748b;
+      --text-faint:  #94a3b8;
+      --nav-bg:      rgba(255,255,255,0.88);
+      --footer-bg:   #1e293b;
+      --footer-text: #64748b;
+      --shadow:      rgba(0,0,0,0.07);
+
+      /* Dashboard (always dark) */
+      --dash-bg:     #1e293b;
+      --dash-border: rgba(255,255,255,0.08);
+      --dash-text:   #ffffff;
+      --dash-muted:  #64748b;
+      --dash-bar:    rgba(255,255,255,0.08);
+    }
+
+    [data-theme="dark"] {
+      --bg:          #0b1120;
+      --bg-section:  #111827;
+      --bg-alt:      #0f172a;
+      --surface:     #1e293b;
+      --border:      #1e2d45;
+      --text:        #f1f5f9;
+      --text-muted:  #94a3b8;
+      --text-faint:  #64748b;
+      --nav-bg:      rgba(11,17,32,0.92);
+      --footer-bg:   #070d1a;
+      --footer-text: #475569;
+      --shadow:      rgba(0,0,0,0.35);
+      --green-light: rgba(34,197,94,0.12);
+      --green-light-text: #4ade80;
+    }
+
+    /* ─── GLOBAL TRANSITION ─── */
+    body, nav, section, footer, .footer-bottom,
+    .feat-card, .testi-card, .price-card, .dashboard-card {
+      transition: background 0.35s ease, color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      background: var(--nav-bg);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 5%;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 68px; gap: 1rem;
+    }
+    .logo { font-size: 1.4rem; font-weight: 800; color: var(--text); white-space: nowrap; }
+    .logo span { color: var(--green); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--text-muted); font-weight: 500; font-size: 0.95rem; transition: color .2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-right { display: flex; align-items: center; gap: 0.75rem; }
+    .nav-cta {
+      background: var(--green); color: #fff; border: none;
+      padding: 0.6rem 1.4rem; border-radius: 8px; font-weight: 600;
+      cursor: pointer; font-size: 0.9rem; transition: background .2s;
+      white-space: nowrap;
+    }
+    .nav-cta:hover { background: var(--green-dark); }
+
+    /* ─── THEME TOGGLE ─── */
+    .theme-toggle {
+      position: relative; width: 52px; height: 28px;
+      background: var(--border); border-radius: 99px;
+      border: 1.5px solid var(--border);
+      cursor: pointer; flex-shrink: 0;
+      transition: background .35s, border-color .35s;
+      display: flex; align-items: center; padding: 0 3px;
+    }
+    [data-theme="dark"] .theme-toggle { background: #1e293b; border-color: #334155; }
+    .toggle-thumb {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem;
+      transition: transform .35s cubic-bezier(.4,0,.2,1), background .35s;
+      transform: translateX(0);
+      pointer-events: none;
+    }
+    [data-theme="dark"] .toggle-thumb { transform: translateX(24px); background: #334155; }
+    .toggle-icon-light { position: absolute; left: 6px; font-size: 0.72rem; opacity: 1; transition: opacity .3s; }
+    .toggle-icon-dark  { position: absolute; right: 6px; font-size: 0.72rem; opacity: 0.4; transition: opacity .3s; }
+    [data-theme="dark"] .toggle-icon-light { opacity: 0.4; }
+    [data-theme="dark"] .toggle-icon-dark  { opacity: 1; }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0b1120 0%, #1e293b 50%, #0c3326 100%);
+      display: flex; align-items: center; justify-content: center;
+      padding: 100px 5% 60px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: -200px; right: -200px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(34,197,94,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .hero::after {
+      content: ''; position: absolute; bottom: -150px; left: -150px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(59,130,246,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .hero-inner {
+      max-width: 1100px; width: 100%;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+      position: relative; z-index: 1;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.3);
+      color: var(--green); padding: 0.4rem 1rem; border-radius: 50px;
+      font-size: 0.82rem; font-weight: 600; margin-bottom: 1.5rem;
+    }
+    .hero h1 { font-size: 3.2rem; font-weight: 800; line-height: 1.15; color: #fff; margin-bottom: 1.2rem; }
+    .hero h1 span { color: var(--green); }
+    .hero p { color: #94a3b8; font-size: 1.1rem; line-height: 1.7; margin-bottom: 2rem; }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--green); color: #fff; border: none;
+      padding: 0.85rem 2rem; border-radius: 10px; font-weight: 700;
+      font-size: 1rem; cursor: pointer;
+      box-shadow: 0 4px 20px rgba(34,197,94,0.4);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(34,197,94,0.5); }
+    .btn-secondary {
+      background: transparent; color: #fff;
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 0.85rem 2rem; border-radius: 10px; font-weight: 600;
+      font-size: 1rem; cursor: pointer; transition: background .2s;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.08); }
+    .hero-stats { display: flex; gap: 2rem; margin-top: 2.5rem; flex-wrap: wrap; }
+    .stat-num { font-size: 1.6rem; font-weight: 800; color: #fff; }
+    .stat-lbl { font-size: 0.8rem; color: #64748b; }
+
+    /* ─── DASHBOARD CARD ─── */
+    .dashboard-card {
+      background: var(--dash-bg);
+      border: 1px solid var(--dash-border);
+      border-radius: 20px; padding: 1.5rem;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+    }
+    .dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; }
+    .dash-title { color: var(--dash-text); font-weight: 700; font-size: 1rem; }
+    .dash-month { color: var(--dash-muted); font-size: 0.82rem; }
+    .balance-section { margin-bottom: 1.2rem; }
+    .balance-label { color: var(--dash-muted); font-size: 0.78rem; margin-bottom: 0.2rem; }
+    .balance-amount { color: var(--dash-text); font-size: 2.2rem; font-weight: 800; }
+    .balance-change { color: var(--green); font-size: 0.82rem; font-weight: 600; margin-top: 0.2rem; }
+    .inc-exp-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1.2rem; }
+    .inc-card, .exp-card { border-radius: 12px; padding: 0.9rem; }
+    .inc-card { background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.2); }
+    .exp-card { background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.2); }
+    .card-icon { font-size: 1.2rem; margin-bottom: 0.3rem; }
+    .card-val-label { font-size: 0.72rem; color: var(--dash-muted); }
+    .inc-card .card-val { color: var(--green); font-size: 1.1rem; font-weight: 700; }
+    .exp-card .card-val { color: var(--red); font-size: 1.1rem; font-weight: 700; }
+    .prog-label { display: flex; justify-content: space-between; margin-bottom: 0.35rem; }
+    .prog-label span:first-child { color: #94a3b8; font-size: 0.78rem; }
+    .prog-label span:last-child { color: var(--dash-text); font-size: 0.78rem; font-weight: 600; }
+    .prog-bar { height: 6px; background: var(--dash-bar); border-radius: 99px; margin-bottom: 0.8rem; }
+    .prog-fill { height: 100%; border-radius: 99px; }
+    .prog-green  { background: var(--green); }
+    .prog-blue   { background: var(--blue); }
+    .prog-purple { background: var(--purple); }
+    .prog-red    { background: var(--red); }
+
+    /* ─── SECTION COMMONS ─── */
+    section { padding: 90px 5%; }
+    .section-tag {
+      display: inline-block;
+      color: var(--green-light-text); background: var(--green-light);
+      padding: 0.3rem 0.9rem; border-radius: 50px;
+      font-size: 0.78rem; font-weight: 700; letter-spacing: .05em;
+      text-transform: uppercase; margin-bottom: 1rem;
+      transition: background .35s, color .35s;
+    }
+    .section-title { font-size: 2.4rem; font-weight: 800; line-height: 1.2; margin-bottom: 1rem; color: var(--text); }
+    .section-sub { color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; max-width: 550px; }
+
+    /* ─── FEATURES ─── */
+    .features { background: var(--bg-section); }
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+    .feat-card {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.8rem;
+      transition: transform .2s, box-shadow .2s, background .35s, border-color .35s;
+    }
+    .feat-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px var(--shadow); }
+    .feat-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 1rem; }
+    .feat-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text); }
+    .feat-card p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
+
+    /* ─── HOW IT WORKS ─── */
+    .how { background: var(--bg-alt); }
+    .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 3rem; position: relative; }
+    .steps::before {
+      content: ''; position: absolute; top: 28px; left: 12%; right: 12%;
+      height: 2px; background: linear-gradient(to right, var(--green), var(--blue)); z-index: 0;
+    }
+    .step { text-align: center; position: relative; z-index: 1; }
+    .step-num {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--green), var(--blue));
+      color: #fff; font-weight: 800; font-size: 1.1rem;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1rem; box-shadow: 0 4px 16px rgba(34,197,94,0.3);
+    }
+    .step h4 { font-weight: 700; margin-bottom: 0.4rem; font-size: 0.95rem; color: var(--text); }
+    .step p { color: var(--text-muted); font-size: 0.85rem; line-height: 1.5; }
+
+    /* ─── PRICING ─── */
+    .pricing { background: var(--bg-section); }
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; align-items: start; }
+    .price-card {
+      background: var(--surface);
+      border: 1px solid var(--border); border-radius: 20px; padding: 2rem;
+      position: relative; transition: transform .2s, background .35s, border-color .35s;
+    }
+    .price-card:hover { transform: translateY(-4px); }
+    .price-card.popular { border-color: var(--green); box-shadow: 0 0 0 2px rgba(34,197,94,0.2); }
+    .popular-badge {
+      position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+      background: var(--green); color: #fff; padding: 0.3rem 1rem; border-radius: 50px;
+      font-size: 0.75rem; font-weight: 700;
+    }
+    .plan-name { font-weight: 700; font-size: 1rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+    .plan-price { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.3rem; color: var(--text); }
+    .plan-price span { font-size: 1rem; font-weight: 500; color: var(--text-muted); }
+    .plan-desc { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1.5rem; }
+    .plan-features { list-style: none; margin-bottom: 2rem; }
+    .plan-features li { display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 0; font-size: 0.9rem; border-bottom: 1px solid var(--border); color: var(--text); }
+    .plan-features li:last-child { border-bottom: none; }
+    .plan-features li .check { color: var(--green); font-weight: 700; }
+    .plan-features li .cross { color: var(--text-faint); }
+    .plan-btn { width: 100%; padding: 0.85rem; border-radius: 10px; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: all .2s; }
+    .plan-btn.outline { background: transparent; border: 1.5px solid var(--border); color: var(--text); }
+    .plan-btn.outline:hover { border-color: var(--green); color: var(--green); }
+    .plan-btn.filled { background: var(--green); border: none; color: #fff; box-shadow: 0 4px 16px rgba(34,197,94,0.3); }
+    .plan-btn.filled:hover { background: var(--green-dark); }
+
+    /* ─── TESTIMONIALS ─── */
+    .testimonials { background: var(--bg-alt); }
+    .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+    .testi-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 1.8rem; transition: background .35s, border-color .35s; }
+    .stars { color: #f59e0b; font-size: 1rem; margin-bottom: 0.8rem; }
+    .testi-text { color: var(--text-muted); font-size: 0.9rem; line-height: 1.7; margin-bottom: 1.2rem; font-style: italic; }
+    .testi-author { display: flex; align-items: center; gap: 0.8rem; }
+    .avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; color: #fff; }
+    .author-name { font-weight: 700; font-size: 0.88rem; color: var(--text); }
+    .author-role { color: var(--text-muted); font-size: 0.78rem; }
+
+    /* ─── CTA ─── */
+    .cta-section {
+      background: linear-gradient(135deg, #0b1120 0%, #0c3326 100%);
+      text-align: center; padding: 100px 5%;
+    }
+    .cta-section h2 { color: #fff; font-size: 2.8rem; font-weight: 800; margin-bottom: 1rem; }
+    .cta-section h2 span { color: var(--green); }
+    .cta-section p { color: #94a3b8; font-size: 1.1rem; margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+    .cta-input-row { display: flex; gap: 0.8rem; justify-content: center; max-width: 480px; margin: 0 auto; }
+    .cta-input { flex: 1; padding: 0.85rem 1.2rem; border-radius: 10px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.08); color: #fff; font-size: 0.95rem; outline: none; }
+    .cta-input::placeholder { color: #64748b; }
+
+    /* ─── FOOTER ─── */
+    footer { background: var(--footer-bg); color: var(--footer-text); padding: 3rem 5%; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2rem; transition: background .35s; }
+    .footer-brand .logo { display: block; margin-bottom: 0.8rem; }
+    .footer-brand p { font-size: 0.88rem; line-height: 1.6; }
+    footer h5 { color: #e2e8f0; font-size: 0.9rem; font-weight: 700; margin-bottom: 1rem; }
+    footer ul { list-style: none; }
+    footer ul li { margin-bottom: 0.6rem; }
+    footer ul li a { color: var(--footer-text); text-decoration: none; font-size: 0.88rem; transition: color .2s; }
+    footer ul li a:hover { color: #e2e8f0; }
+    .footer-bottom { background: var(--footer-bg); border-top: 1px solid rgba(255,255,255,0.06); text-align: center; padding: 1.2rem 5%; color: #475569; font-size: 0.82rem; transition: background .35s; }
+
+    /* ─── DARK MODE FEAT ICON OVERRIDES ─── */
+    [data-theme="dark"] .feat-icon-green  { background: rgba(34,197,94,0.15) !important; }
+    [data-theme="dark"] .feat-icon-blue   { background: rgba(59,130,246,0.15) !important; }
+    [data-theme="dark"] .feat-icon-purple { background: rgba(139,92,246,0.15) !important; }
+    [data-theme="dark"] .feat-icon-yellow { background: rgba(245,158,11,0.15) !important; }
+    [data-theme="dark"] .feat-icon-red    { background: rgba(239,68,68,0.15) !important; }
+    [data-theme="dark"] .feat-icon-pink   { background: rgba(236,72,153,0.15) !important; }
+
+    /* ─── RESPONSIVE ─── */
+    @media(max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .features-grid, .pricing-grid, .testi-grid { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr 1fr; }
+      .steps::before { display: none; }
+      footer { grid-template-columns: 1fr 1fr; }
+      .hero h1 { font-size: 2.2rem; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Fin<span>Track</span></div>
+  <ul class="nav-links">
+    <li><a href="#">Features</a></li>
+    <li><a href="#">How it Works</a></li>
+    <li><a href="#">Pricing</a></li>
+    <li><a href="#">Blog</a></li>
+  </ul>
+  <div class="nav-right">
+    <!-- THEME TOGGLE -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode" title="Toggle theme">
+      <span class="toggle-icon-light">☀️</span>
+      <span class="toggle-icon-dark">🌙</span>
+      <span class="toggle-thumb" id="toggleThumb"></span>
+    </button>
+    <button class="nav-cta">Get Started Free</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge">✨ Smart Finance Management</div>
+      <h1>Take Control of Your <span>Money</span> Effortlessly</h1>
+      <p>FinTrack helps you monitor every dollar coming in and going out. Set budgets, track habits, and achieve your financial goals — all in one place.</p>
+      <div class="hero-actions">
+        <button class="btn-primary">🚀 Start for Free</button>
+        <button class="btn-secondary">▶ Watch Demo</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item"><div class="stat-num">250K+</div><div class="stat-lbl">Active Users</div></div>
+        <div class="stat-item"><div class="stat-num">$4.2B</div><div class="stat-lbl">Tracked Monthly</div></div>
+        <div class="stat-item"><div class="stat-num">4.9★</div><div class="stat-lbl">App Rating</div></div>
+      </div>
+    </div>
+    <!-- Dashboard Preview -->
+    <div class="dashboard-card">
+      <div class="dash-header">
+        <span class="dash-title">💼 My Dashboard</span>
+        <span class="dash-month">March 2026</span>
+      </div>
+      <div class="balance-section">
+        <div class="balance-label">Total Balance</div>
+        <div class="balance-amount">$12,480.50</div>
+        <div class="balance-change">↑ +8.4% from last month</div>
+      </div>
+      <div class="inc-exp-row">
+        <div class="inc-card"><div class="card-icon">💰</div><div class="card-val-label">Income</div><div class="card-val">+$5,240</div></div>
+        <div class="exp-card"><div class="card-icon">💸</div><div class="card-val-label">Expenses</div><div class="card-val">-$2,180</div></div>
+      </div>
+      <div class="progress-section">
+        <div class="prog-label"><span>🍔 Food & Dining</span><span>$640</span></div>
+        <div class="prog-bar"><div class="prog-fill prog-green" style="width:65%"></div></div>
+        <div class="prog-label"><span>🏠 Housing</span><span>$1,200</span></div>
+        <div class="prog-bar"><div class="prog-fill prog-blue" style="width:82%"></div></div>
+        <div class="prog-label"><span>🚗 Transport</span><span>$220</span></div>
+        <div class="prog-bar"><div class="prog-fill prog-purple" style="width:35%"></div></div>
+        <div class="prog-label"><span>🎉 Entertainment</span><span>$120</span></div>
+        <div class="prog-bar"><div class="prog-fill prog-red" style="width:20%"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div style="max-width:1100px; margin:0 auto;">
+    <div class="section-tag">Features</div>
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:1rem;">
+      <h2 class="section-title">Everything You Need to<br>Master Your Finances</h2>
+      <p class="section-sub">Powerful tools packed into a clean, intuitive interface built for everyone.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feat-card">
+        <div class="feat-icon feat-icon-green" style="background:#dcfce7;">📊</div>
+        <h3>Real-Time Tracking</h3>
+        <p>Instantly log income and expenses. See your financial picture update live with every transaction.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon feat-icon-blue" style="background:#dbeafe;">🏷️</div>
+        <h3>Smart Categorization</h3>
+        <p>Auto-categorize transactions using AI. Group by food, rent, travel, entertainment, and more.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon feat-icon-purple" style="background:#ede9fe;">🎯</div>
+        <h3>Budget Goals</h3>
+        <p>Set monthly spending limits per category. Get alerts before you overspend on any budget.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon feat-icon-yellow" style="background:#fef9c3;">📈</div>
+        <h3>Insightful Reports</h3>
+        <p>Visual charts and trend reports that show where your money goes every week and month.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon feat-icon-red" style="background:#fee2e2;">🔒</div>
+        <h3>Bank-Grade Security</h3>
+        <p>256-bit encryption and read-only bank connections keep your financial data safe at all times.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon feat-icon-pink" style="background:#fce7f3;">🔔</div>
+        <h3>Smart Alerts</h3>
+        <p>Get notified about unusual spending, bill due dates, and when you're close to hitting a limit.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div style="max-width:1100px; margin:0 auto; text-align:center;">
+    <div class="section-tag">How it works</div>
+    <h2 class="section-title">Up and Running in Minutes</h2>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><h4>Create Account</h4><p>Sign up for free in under 60 seconds. No credit card required.</p></div>
+      <div class="step"><div class="step-num">2</div><h4>Connect or Add Manually</h4><p>Link your bank account or add transactions manually anytime.</p></div>
+      <div class="step"><div class="step-num">3</div><h4>Set Your Budget</h4><p>Define monthly budgets for every spending category you care about.</p></div>
+      <div class="step"><div class="step-num">4</div><h4>Track & Grow</h4><p>Watch your savings grow with smart insights and goal tracking.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div style="max-width:1100px; margin:0 auto; text-align:center;">
+    <div class="section-tag">Pricing</div>
+    <h2 class="section-title">Simple, Transparent Pricing</h2>
+    <p class="section-sub" style="margin:0 auto 0;">No hidden fees. Upgrade or downgrade anytime.</p>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="plan-name">Starter</div>
+        <div class="plan-price">$0 <span>/ month</span></div>
+        <div class="plan-desc">Perfect for personal use.</div>
+        <ul class="plan-features">
+          <li><span class="check">✓</span> Up to 50 transactions/mo</li>
+          <li><span class="check">✓</span> 3 Budget categories</li>
+          <li><span class="check">✓</span> Basic reports</li>
+          <li><span class="cross">✗</span> Bank sync</li>
+          <li><span class="cross">✗</span> Smart alerts</li>
+        </ul>
+        <button class="plan-btn outline">Get Started</button>
+      </div>
+      <div class="price-card popular">
+        <div class="popular-badge">✨ Most Popular</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">$9 <span>/ month</span></div>
+        <div class="plan-desc">For serious savers and planners.</div>
+        <ul class="plan-features">
+          <li><span class="check">✓</span> Unlimited transactions</li>
+          <li><span class="check">✓</span> Unlimited categories</li>
+          <li><span class="check">✓</span> Advanced reports & charts</li>
+          <li><span class="check">✓</span> 2 Bank connections</li>
+          <li><span class="check">✓</span> Smart alerts & goals</li>
+        </ul>
+        <button class="plan-btn filled">Start Free Trial</button>
+      </div>
+      <div class="price-card">
+        <div class="plan-name">Family</div>
+        <div class="plan-price">$19 <span>/ month</span></div>
+        <div class="plan-desc">Shared finance for the whole family.</div>
+        <ul class="plan-features">
+          <li><span class="check">✓</span> Everything in Pro</li>
+          <li><span class="check">✓</span> Up to 5 members</li>
+          <li><span class="check">✓</span> Unlimited bank connections</li>
+          <li><span class="check">✓</span> Shared budgets</li>
+          <li><span class="check">✓</span> Priority support</li>
+        </ul>
+        <button class="plan-btn outline">Get Started</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div style="max-width:1100px; margin:0 auto;">
+    <div class="section-tag">Testimonials</div>
+    <h2 class="section-title">Loved by Thousands</h2>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">"FinTrack changed how I think about money. I saved $600 in my first month just by seeing where I was overspending. Absolutely worth it!"</p>
+        <div class="testi-author">
+          <div class="avatar" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">SJ</div>
+          <div><div class="author-name">Sarah Johnson</div><div class="author-role">Freelance Designer</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">"The budget alerts are a lifesaver. I never go over my food budget anymore and the reports are beautiful. Best finance app I've ever used."</p>
+        <div class="testi-author">
+          <div class="avatar" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">MR</div>
+          <div><div class="author-name">Marcus Rivera</div><div class="author-role">Software Engineer</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">"We switched to the Family plan and it's been incredible. My partner and I finally have a shared view of our finances. Highly recommend!"</p>
+        <div class="testi-author">
+          <div class="avatar" style="background:linear-gradient(135deg,#22c55e,#0ea5e9)">AP</div>
+          <div><div class="author-name">Amelia Park</div><div class="author-role">Small Business Owner</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Start Saving <span>Smarter</span> Today</h2>
+  <p>Join over 250,000 users who've taken control of their finances with FinTrack.</p>
+  <div class="cta-input-row">
+    <input class="cta-input" type="email" placeholder="Enter your email address"/>
+    <button class="btn-primary">Get Started Free</button>
+  </div>
+  <p style="color:#475569; font-size:0.8rem; margin-top:1rem;">No credit card required · Free forever plan available</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <span class="logo">Fin<span>Track</span></span>
+    <p>Smart income & expense tracking for individuals and families. Take control of your financial future.</p>
+  </div>
+  <div>
+    <h5>Product</h5>
+    <ul>
+      <li><a href="#">Features</a></li>
+      <li><a href="#">Pricing</a></li>
+      <li><a href="#">Integrations</a></li>
+      <li><a href="#">Changelog</a></li>
+    </ul>
+  </div>
+  <div>
+    <h5>Company</h5>
+    <ul>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Blog</a></li>
+      <li><a href="#">Careers</a></li>
+      <li><a href="#">Press</a></li>
+    </ul>
+  </div>
+  <div>
+    <h5>Support</h5>
+    <ul>
+      <li><a href="#">Help Center</a></li>
+      <li><a href="#">Contact Us</a></li>
+      <li><a href="#">Privacy Policy</a></li>
+      <li><a href="#">Terms of Service</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  © 2026 FinTrack. All rights reserved. Made with ❤️ for better financial health.
+</div>
+
+<!-- ─── THEME TOGGLE SCRIPT ─── -->
+<script>
+  const html   = document.documentElement;
+  const toggle = document.getElementById('themeToggle');
+
+  // Restore saved preference on load
+  const saved = localStorage.getItem('fintrack-theme') || 'light';
+  html.setAttribute('data-theme', saved);
+
+  toggle.addEventListener('click', () => {
+    const current = html.getAttribute('data-theme');
+    const next = current === 'light' ? 'dark' : 'light';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('fintrack-theme', next);
+  });
+</script>
+
+</body>
+</html>
