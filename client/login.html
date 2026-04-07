@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Access Control | Final Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./login.css" />
+  </head>
+  <body>
+    <div class="login-shell">
+      <section class="left">
+        <a class="brand" href="./index.html">FinAI Tracker</a>
+        <h1>
+          The Future of<br />
+          <span>Wealth</span>
+        </h1>
+        <p>
+          Navigate your financial future with high-fidelity intelligence and automated precision
+          architecture.
+        </p>
+
+        <div class="mock-grid">
+          <article class="vault card">
+            <span class="label">ACTIVE VAULT</span>
+            <small>GLOBAL ASSETS</small>
+            <h3>$142,500.00</h3>
+            <strong>+12.4% MTD</strong>
+          </article>
+          <article class="split card">
+            <span class="label">INTELLIGENCE SPLIT</span>
+            <div class="bars">
+              <i></i><i></i><i></i><i></i><i></i>
+            </div>
+          </article>
+          <article class="ai card">
+            <h4>AI Optimization</h4>
+            <p>GAS YIELD: +$12.50</p>
+            <span>L2 SECURE</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="right">
+        <form id="loginForm" class="panel">
+          <h2>Access Control</h2>
+          <p>Interface with your sovereign financial data architecture.</p>
+
+          <div class="social-row">
+            <button type="button" class="social">Google</button>
+            <button type="button" class="social">GitHub</button>
+          </div>
+
+          <div class="separator">STANDARD PROTOCOL</div>
+
+          <label for="email">OPERATOR ID</label>
+          <input id="email" name="email" type="email" placeholder="auth.id@finai.com" required />
+
+          <div class="row">
+            <label for="password">ENCRYPTED KEY</label>
+            <a href="#">KEY RECOVERY</a>
+          </div>
+          <input id="password" name="password" type="password" placeholder=".............." required />
+
+          <label class="checkbox">
+            <input type="checkbox" />
+            <span>Maintain encrypted session</span>
+          </label>
+
+          <button id="loginBtn" class="submit" type="submit">INITIALIZE TERMINAL</button>
+
+          <p id="loginMessage" class="form-message" role="status" aria-live="polite"></p>
+
+          <p class="footnote">
+            New operator?
+            <a href="./register.html">Request Protocol Access</a>
+          </p>
+        </form>
+
+        <div class="meta-links">
+          <a href="./index.html">BACK TO LANDING</a>
+          <a href="#">LEGAL TERMS</a>
+          <a href="#">SYSTEM STATUS</a>
+        </div>
+      </section>
+    </div>
+    <script src="./scripts/auth.js"></script>
+    <script src="./scripts/login.js"></script>
+  </body>
+</html>
