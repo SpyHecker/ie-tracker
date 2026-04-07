@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Final Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-bg"></div>
+    <header class="nav-wrap">
+      <nav class="nav">
+        <div class="logo">Final Tracker</div>
+        <ul class="nav-links">
+          <li><a class="active" href="#">Platform</a></li>
+          <li><a href="#">How it Works</a></li>
+          <li><a href="#">Security</a></li>
+          <li><a href="#">Pricing</a></li>
+        </ul>
+        <div class="nav-actions">
+          <a id="navLogin" class="login-link" href="./login.html">Login</a>
+          <a id="navRegister" class="btn btn-cyan" href="./register.html">Get Started</a>
+          <button id="navLogout" class="btn btn-dark" type="button" style="display: none;">Logout</button>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero container">
+        <div class="hero-copy">
+          <h1>
+            Take Control of<br />
+            Your <span>Money</span> with AI
+          </h1>
+          <p>
+            Track, analyze, and predict your finances with intelligent insights.
+            The future of personal wealth management is here.
+          </p>
+          <div class="hero-cta">
+            <a class="btn btn-cyan" href="./register.html">Get Started</a>
+            <button class="btn btn-dark">View Demo</button>
+          </div>
+        </div>
+        <div class="hero-card card">
+          <div class="hero-card-top">
+            <span class="chip">Live</span>
+            <span class="status-dot"></span>
+          </div>
+          <div class="chart-frame">
+            <svg viewBox="0 0 500 190" preserveAspectRatio="none" aria-hidden="true">
+              <path
+                d="M0,145 C70,140 110,160 170,125 C220,95 280,20 335,80 C385,138 430,160 500,40"
+                fill="none"
+                stroke="#2fe7ff"
+                stroke-width="5"
+              />
+            </svg>
+          </div>
+          <div class="hero-metrics">
+            <div class="metric card-small">
+              <span>BALANCE</span>
+              <strong>$45,280</strong>
+            </div>
+            <div class="metric card-small">
+              <span>GAINS</span>
+              <strong>INR 12,400</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="container section">
+        <div class="section-head">
+          <h2>Intelligent Financial Infrastructure</h2>
+          <p>Harness the power of AI to transform how you interact with your capital.</p>
+        </div>
+        <div class="feature-grid">
+          <article class="card feature">
+            <h3>Smart Expense Tracking</h3>
+            <p>Automatically categorizes transactions and sees spending trends in real time.</p>
+          </article>
+          <article class="card feature">
+            <h3>AI Insights</h3>
+            <p>Predict future spending patterns and receive proactive budget recommendations.</p>
+          </article>
+          <article class="card feature">
+            <h3>Analytics Dashboard</h3>
+            <p>Visualize your financial health with high-clarity charts and trend breakdowns.</p>
+          </article>
+          <article class="card feature">
+            <h3>Budget Planning</h3>
+            <p>Dynamic budgeting that adapts to your lifestyle and long-term goals.</p>
+          </article>
+          <article class="card feature">
+            <h3>Secure Data Protection</h3>
+            <p>Bank-level encryption and robust privacy controls keep every record protected.</p>
+          </article>
+          <article class="card feature">
+            <h3>Real-Time Reports</h3>
+            <p>Instant reports on spending, savings, and investing performance to guide decisions.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="container section">
+        <div class="section-head">
+          <h2>Experience the Observatory</h2>
+          <p>A command center for your capital.</p>
+        </div>
+        <div class="card observatory">
+          <div class="obs-side">
+            <div class="obs-metric">
+              <span>TOTAL NET WORTH</span>
+              <strong>INR 24,500.00</strong>
+            </div>
+            <div class="obs-progress">
+              <span>Goal Progress</span>
+              <div><i style="width: 70%"></i></div>
+            </div>
+          </div>
+          <div class="obs-chart">
+            <div class="bar" style="height: 48%"></div>
+            <div class="bar" style="height: 72%"></div>
+            <div class="bar" style="height: 38%"></div>
+            <div class="bar" style="height: 58%"></div>
+            <div class="bar" style="height: 66%"></div>
+            <div class="bar" style="height: 31%"></div>
+            <div class="bar" style="height: 81%"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="container section">
+        <div class="section-head">
+          <h2>Three Steps to Intelligence</h2>
+        </div>
+        <div class="steps">
+          <article class="step">
+            <div class="step-icon">1</div>
+            <h3>Add Transactions</h3>
+            <p>Connect your bank account securely or enter details manually.</p>
+          </article>
+          <article class="step">
+            <div class="step-icon purple">2</div>
+            <h3>Analyze Spending</h3>
+            <p>Our AI classifies every row into spending, saving, and investing categories.</p>
+          </article>
+          <article class="step">
+            <div class="step-icon">3</div>
+            <h3>Get AI Insights</h3>
+            <p>Receive personalized recommendations to optimize your wealth growth.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="container section assistant">
+        <div class="assistant-copy">
+          <h2>Your Personal Financial Assistant</h2>
+          <p>Interactive chat goes beyond numbers. Chat with your data to understand behavior.</p>
+          <ul>
+            <li>Natural language summaries for any period</li>
+            <li>Contextual alerts and savings tips</li>
+            <li>24/7 analysis of market trends</li>
+          </ul>
+        </div>
+        <div class="card chat-card">
+          <h4>Final Assistant</h4>
+          <p class="msg">I noticed your spending for last week.</p>
+          <p class="msg user">How can I save more next month?</p>
+          <p class="msg">You can save approximately INR 2,800 by reducing takeout by 20%.</p>
+          <div class="chat-input">Type a question...</div>
+        </div>
+      </section>
+
+      <section class="container section security">
+        <div class="shield">S</div>
+        <h2>Security is in our DNA</h2>
+        <p>
+          Your data is protected with advanced encryption and secure authentication.
+          We employ bank-level security protocols for all data storage and transfer.
+        </p>
+        <div class="badges">
+          <span>AES-256</span>
+          <span>SOC2 COMPLIANT</span>
+          <span>2FA SECURE</span>
+        </div>
+      </section>
+
+      <section class="container cta-wrap">
+        <div class="cta card">
+          <h2>Start Your Smart Financial Journey Today</h2>
+          <p>Join over 50,000 users making smarter financial decisions with AI.</p>
+          <a class="btn btn-dark" href="./register.html">Create Free Account</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container foot-grid">
+        <div>
+          <h4>Final Tracker</h4>
+          <small>&copy; 2026 Final Tracker. Engineered for the future of finance.</small>
+        </div>
+        <div>
+          <h5>Platform</h5>
+          <a href="#">Features</a>
+          <a href="#">Pricing</a>
+          <a href="#">Security</a>
+        </div>
+        <div>
+          <h5>Resources</h5>
+          <a href="#">API Documentation</a>
+          <a href="#">Support Center</a>
+          <a href="#">Community</a>
+        </div>
+        <div>
+          <h5>Legal</h5>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+        </div>
+      </div>
+    </footer>
+    <script src="./scripts/auth.js"></script>
+    <script src="./scripts/index.js"></script>
+  </body>
+</html>
