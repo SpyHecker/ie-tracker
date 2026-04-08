@@ -51,11 +51,37 @@
     return payload;
   }
 
+  async function validateSession() {
+    const token = getToken();
+    if (!token) {
+      return null;
+    }
+
+    try {
+      const data = await api("/me", { method: "GET" });
+      setSession(token, data.user);
+      return data.user;
+    } catch {
+      clearSession();
+      return null;
+    }
+  }
+
+  async function redirectIfAuthenticated(redirectTo) {
+    const user = await validateSession();
+    if (user) {
+      window.location.href = redirectTo || "./index.html";
+    }
+    return user;
+  }
+
   window.authClient = {
     api,
     setSession,
     clearSession,
     getToken,
-    getUser
+    getUser,
+    validateSession,
+    redirectIfAuthenticated
   };
 })();
