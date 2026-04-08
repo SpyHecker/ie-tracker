@@ -40,6 +40,7 @@ body {
   background:
     radial-gradient(circle at 68% 36%, rgba(53, 230, 255, 0.14), transparent 46%),
     radial-gradient(circle at 24% 12%, rgba(126, 93, 255, 0.2), transparent 36%);
+  overflow: hidden;
 }
 
 .brand {
@@ -347,5 +348,25 @@ input[type="password"] {
 
   .vault h3 {
     font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .left,
+  .right {
+    padding: 1.2rem 0.8rem;
+  }
+
+  .panel {
+    padding: 1.3rem 0.9rem;
+  }
+
+  .panel h2 {
+    font-size: clamp(1.6rem, 8vw, 2.1rem);
+  }
+
+  .meta-links {
+    gap: 0.9rem;
+    flex-wrap: wrap;
   }
 }

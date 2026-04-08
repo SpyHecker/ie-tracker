@@ -45,6 +45,7 @@ body {
     radial-gradient(circle at 36% 52%, rgba(57, 230, 255, 0.14), transparent 42%),
     linear-gradient(110deg, var(--left-bg) 0%, #050b1d 78%);
   border-right: 1px solid rgba(127, 150, 185, 0.16);
+  overflow: hidden;
 }
 
 .home-link {
@@ -323,5 +324,39 @@ input {
     height: 120px;
     top: 180px;
     left: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .left-side,
+  .right-side {
+    padding: 1.2rem 0.8rem;
+  }
+
+  .register-panel {
+    padding: 1.4rem 0.9rem;
+  }
+
+  .visual-stack {
+    height: 220px;
+  }
+
+  .chart {
+    width: 170px;
+    height: 170px;
+  }
+
+  .card {
+    width: 190px;
+    height: 140px;
+    left: 70px;
+    top: 58px;
+  }
+
+  .coin {
+    width: 86px;
+    height: 86px;
+    top: 145px;
+    left: 84px;
   }
 }

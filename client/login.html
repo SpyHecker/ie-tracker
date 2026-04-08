@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Access Control | Final Tracker</title>
+    <title>Login | Final Tracker</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -15,78 +15,72 @@
   <body>
     <div class="login-shell">
       <section class="left">
-        <a class="brand" href="./index.html">FinAI Tracker</a>
+        <a class="brand" href="./index.html">Final Tracker</a>
         <h1>
-          The Future of<br />
-          <span>Wealth</span>
+          Welcome<br />
+          <span>Back</span>
         </h1>
-        <p>
-          Navigate your financial future with high-fidelity intelligence and automated precision
-          architecture.
-        </p>
+        <p>Login to continue tracking your income and expenses.</p>
 
         <div class="mock-grid">
           <article class="vault card">
-            <span class="label">ACTIVE VAULT</span>
-            <small>GLOBAL ASSETS</small>
+            <span class="label">TOTAL SAVINGS</span>
+            <small>THIS MONTH</small>
             <h3>$142,500.00</h3>
-            <strong>+12.4% MTD</strong>
+            <strong>+12.4% this month</strong>
           </article>
           <article class="split card">
-            <span class="label">INTELLIGENCE SPLIT</span>
+            <span class="label">SPENDING SPLIT</span>
             <div class="bars">
               <i></i><i></i><i></i><i></i><i></i>
             </div>
           </article>
           <article class="ai card">
-            <h4>AI Optimization</h4>
-            <p>GAS YIELD: +$12.50</p>
-            <span>L2 SECURE</span>
+            <h4>Budget Tip</h4>
+            <p>You can save more by lowering food delivery spend.</p>
+            <span>Easy Suggestion</span>
           </article>
         </div>
       </section>
 
       <section class="right">
         <form id="loginForm" class="panel">
-          <h2>Access Control</h2>
-          <p>Interface with your sovereign financial data architecture.</p>
+          <h2>Login</h2>
+          <p>Enter your account details.</p>
 
           <div class="social-row">
-            <button type="button" class="social">Google</button>
-            <button type="button" class="social">GitHub</button>
+            <button type="button" class="social" data-oauth="Google">Google</button>
+            <button type="button" class="social" data-oauth="Facebook">Facebook</button>
           </div>
 
-          <div class="separator">STANDARD PROTOCOL</div>
+          <div class="separator">OR USE EMAIL</div>
 
-          <label for="email">OPERATOR ID</label>
-          <input id="email" name="email" type="email" placeholder="auth.id@finai.com" required />
+          <label for="email">EMAIL</label>
+          <input id="email" name="email" type="email" placeholder="you@example.com" required />
 
           <div class="row">
-            <label for="password">ENCRYPTED KEY</label>
-            <a href="#">KEY RECOVERY</a>
+            <label for="password">PASSWORD</label>
+            <a href="./register.html">Forgot password?</a>
           </div>
           <input id="password" name="password" type="password" placeholder=".............." required />
 
           <label class="checkbox">
             <input type="checkbox" />
-            <span>Maintain encrypted session</span>
+            <span>Keep me logged in</span>
           </label>
 
-          <button id="loginBtn" class="submit" type="submit">INITIALIZE TERMINAL</button>
+          <button id="loginBtn" class="submit" type="submit">LOGIN</button>
 
           <p id="loginMessage" class="form-message" role="status" aria-live="polite"></p>
 
           <p class="footnote">
-            New operator?
-            <a href="./register.html">Request Protocol Access</a>
+            New user?
+            <a href="./register.html">Create account</a>
+          </p>
+          <p class="footnote">
+            <a href="./index.html">Back to Home</a>
           </p>
         </form>
-
-        <div class="meta-links">
-          <a href="./index.html">BACK TO LANDING</a>
-          <a href="#">LEGAL TERMS</a>
-          <a href="#">SYSTEM STATUS</a>
-        </div>
       </section>
     </div>
     <script src="./scripts/auth.js"></script>
