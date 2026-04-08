@@ -1,15 +1,20 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
+const fs = require("fs");
 const { port } = require("./config/env");
 const authRoutes = require("./routes/auth.routes");
 
 const app = express();
-const clientPath = path.resolve(process.cwd(), "client");
+const clientDistPath = path.resolve(process.cwd(), "client", "dist");
+const clientIndexPath = path.join(clientDistPath, "index.html");
+const hasClientBuild = fs.existsSync(clientIndexPath);
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(clientPath));
+if (hasClientBuild) {
+  app.use(express.static(clientDistPath));
+}
 
 app.get("/health", (_req, res) => {
   res.json({ ok: true });
@@ -18,7 +23,23 @@ app.get("/health", (_req, res) => {
 app.use("/api/auth", authRoutes);
 
 app.get("/", (_req, res) => {
-  res.sendFile(path.join(clientPath, "index.html"));
+  if (!hasClientBuild) {
+    return res.status(503).json({
+      message: "Client app is not built. Run `npm run build` first."
+    });
+  }
+
+  return res.sendFile(clientIndexPath);
+});
+
+app.get(/^\/(?!api|health).*/, (_req, res) => {
+  if (!hasClientBuild) {
+    return res.status(503).json({
+      message: "Client app is not built. Run `npm run build` first."
+    });
+  }
+
+  return res.sendFile(clientIndexPath);
 });
 
 app.use((err, _req, res, _next) => {

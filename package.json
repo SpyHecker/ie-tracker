@@ -1,17 +1,29 @@
 {
   "name": "ie-tracker",
   "version": "1.0.0",
-  "description": "Basic MERN-style auth scaffold for landing/login/register pages",
+  "description": "MERN auth scaffold with React frontend and Express backend",
   "main": "server/src/server.js",
   "scripts": {
-    "start": "node server/src/server.js",
-    "dev": "node server/src/server.js"
+    "start": "npm run build && node server/src/server.js",
+    "dev": "node server/src/server.js",
+    "server:dev": "node server/src/server.js",
+    "client:dev": "vite --config client/vite.config.js",
+    "client:build": "vite build --config client/vite.config.js",
+    "client:preview": "vite preview --config client/vite.config.js",
+    "build": "npm run client:build"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.2",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.30.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.4.1",
+    "vite": "^5.4.19"
   }
 }
