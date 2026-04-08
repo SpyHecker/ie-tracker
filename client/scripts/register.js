@@ -3,7 +3,7 @@ const registerMessage = document.getElementById("registerMessage");
 const registerBtn = document.getElementById("registerBtn");
 const socialButtons = document.querySelectorAll("[data-oauth]");
 
-window.authClient.redirectIfAuthenticated("./index.html");
+window.authClient.redirectIfAuthenticated("./dashboard.html");
 
 socialButtons.forEach((button) => {
   button.addEventListener("click", () => {
@@ -39,7 +39,7 @@ if (registerForm) {
       window.authClient.setSession(data.token, data.user);
       registerMessage.classList.add("success");
       registerMessage.textContent = "Account created. Redirecting...";
-      window.location.href = "./index.html";
+      window.location.href = "./dashboard.html";
     } catch (error) {
       registerMessage.textContent = error.message;
     } finally {

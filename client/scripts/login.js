@@ -3,7 +3,7 @@ const loginMessage = document.getElementById("loginMessage");
 const loginBtn = document.getElementById("loginBtn");
 const socialButtons = document.querySelectorAll("[data-oauth]");
 
-window.authClient.redirectIfAuthenticated("./index.html");
+window.authClient.redirectIfAuthenticated("./dashboard.html");
 
 socialButtons.forEach((button) => {
   button.addEventListener("click", () => {
@@ -31,7 +31,7 @@ if (loginForm) {
       window.authClient.setSession(data.token, data.user);
       loginMessage.classList.add("success");
       loginMessage.textContent = "Login successful. Redirecting...";
-      window.location.href = "./index.html";
+      window.location.href = "./dashboard.html";
     } catch (error) {
       loginMessage.textContent = error.message;
     } finally {

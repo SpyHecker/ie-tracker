@@ -1,4 +1,4 @@
-const navLogin = document.getElementById("navLogin");
+﻿const navLogin = document.getElementById("navLogin");
 const navRegister = document.getElementById("navRegister");
 const navLogout = document.getElementById("navLogout");
 

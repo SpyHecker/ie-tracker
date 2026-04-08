@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -14,190 +14,86 @@
   </head>
   <body>
     <div class="page-bg"></div>
+
     <header class="nav-wrap">
-      <nav class="nav">
-        <div class="logo">Final Tracker</div>
-        <ul class="nav-links">
-          <li><a class="active" href="#platform">Platform</a></li>
-          <li><a href="#how-it-works">How it Works</a></li>
-          <li><a href="#security">Security</a></li>
-        </ul>
+      <nav class="nav container">
+        <a class="brand" href="./index.html">Final Tracker</a>
+        <div class="nav-links">
+          <a href="#features">Features</a>
+          <a href="#security">Security</a>
+          <a href="#steps">How It Works</a>
+        </div>
+        <div class="nav-actions">
+          <a class="link-btn" href="./login.html">Login</a>
+          <a class="cta-btn" href="./register.html">Create Account</a>
+        </div>
       </nav>
     </header>
 
     <main>
       <section class="hero container">
         <div class="hero-copy">
-          <h1>Track Your <span>Money</span> Easily</h1>
+          <p class="eyebrow">Smart Personal Finance Tracker</p>
+          <h1>Track spending, save more, and grow with AI insights.</h1>
           <p>
-            Add income and expenses in one place, and see where your money goes.
+            Final Tracker helps you manage income, expenses, and budget goals with
+            easy visual reports and actionable recommendations.
           </p>
-          <div class="hero-cta">
-            <a class="btn btn-cyan" href="./register.html">Start Free</a>
+          <div class="hero-actions">
+            <a class="cta-btn" href="./register.html">Start Free</a>
+            <a class="ghost-btn" href="./login.html">I already have an account</a>
           </div>
         </div>
-        <div id="observatory" class="hero-card card">
-          <div class="hero-card-top">
-            <span class="chip">Live</span>
-            <span class="status-dot"></span>
-          </div>
-          <div class="chart-frame">
-            <svg viewBox="0 0 500 190" preserveAspectRatio="none" aria-hidden="true">
-              <path
-                d="M0,145 C70,140 110,160 170,125 C220,95 280,20 335,80 C385,138 430,160 500,40"
-                fill="none"
-                stroke="#2fe7ff"
-                stroke-width="5"
-              />
-            </svg>
-          </div>
-          <div class="hero-metrics">
-            <div class="metric card-small">
-              <span>Balance</span>
-              <strong>$45,280</strong>
-            </div>
-            <div class="metric card-small">
-              <span>This Month</span>
-              <strong>INR 12,400</strong>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      <section id="platform" class="container section">
-        <div class="section-head">
-          <h2>Simple Tools for Daily Money Tracking</h2>
-          <p>Everything you need to track spending and save better.</p>
-        </div>
-        <div class="feature-grid">
-          <article class="card feature">
-            <h3>Expense Tracking</h3>
-            <p>Keep a clear record of daily spending.</p>
-          </article>
-          <article class="card feature">
-            <h3>Helpful Tips</h3>
-            <p>Get easy suggestions to improve your budget.</p>
-          </article>
-          <article class="card feature">
-            <h3>Clear Charts</h3>
-            <p>See income and expenses with simple graphs.</p>
-          </article>
-          <article class="card feature">
-            <h3>Budget Planning</h3>
-            <p>Plan your month and track your goal progress.</p>
-          </article>
-          <article class="card feature">
-            <h3>Data Safety</h3>
-            <p>Your account data stays private and protected.</p>
-          </article>
-          <article class="card feature">
-            <h3>Quick Reports</h3>
-            <p>Check summaries anytime to make better money decisions.</p>
-          </article>
-        </div>
-      </section>
-
-      <section id="how-it-works" class="container section">
-        <div class="section-head">
-          <h2>Overview</h2>
-          <p>A quick view of your monthly progress.</p>
-        </div>
-        <div class="card observatory">
-          <div class="obs-side">
-            <div class="obs-metric">
-              <span>Total Balance</span>
-              <strong>INR 24,500.00</strong>
-            </div>
-            <div class="obs-progress">
-              <span>Goal Progress</span>
-              <div><i style="width: 70%"></i></div>
-            </div>
-          </div>
-          <div class="obs-chart">
-            <div class="bar" style="height: 48%"></div>
-            <div class="bar" style="height: 72%"></div>
-            <div class="bar" style="height: 38%"></div>
-            <div class="bar" style="height: 58%"></div>
-            <div class="bar" style="height: 66%"></div>
-            <div class="bar" style="height: 31%"></div>
-            <div class="bar" style="height: 81%"></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="container section">
-        <div class="section-head">
-          <h2>How It Works in 3 Steps</h2>
-        </div>
-        <div class="steps">
-          <article class="step">
-            <div class="step-icon">1</div>
-            <h3>Add Income and Expenses</h3>
-            <p>Enter your daily money records.</p>
-          </article>
-          <article class="step">
-            <div class="step-icon purple">2</div>
-            <h3>See Spending Trends</h3>
-            <p>Check simple category-wise summaries.</p>
-          </article>
-          <article class="step">
-            <div class="step-icon">3</div>
-            <h3>Follow Helpful Tips</h3>
-            <p>Use suggestions to save more each month.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="container section assistant">
-        <div class="assistant-copy">
-          <h2>Your Money Assistant</h2>
-          <p>Ask simple questions and get easy-to-read answers.</p>
+        <div class="hero-panel">
+          <h3>Dashboard Access</h3>
+          <p>The dashboard is protected and available only after login.</p>
           <ul>
-            <li>Simple summaries for any date range</li>
-            <li>Alerts and savings reminders</li>
-            <li>Quick spending checks anytime</li>
+            <li>Portfolio overview and score</li>
+            <li>Income vs expense analysis</li>
+            <li>AI insights and budget tracking</li>
           </ul>
+          <a class="ghost-btn full" href="./login.html">Login to open dashboard</a>
         </div>
-        <div class="card chat-card">
-          <h4>Final Assistant</h4>
-          <p class="msg">Your food spending was higher last week.</p>
-          <p class="msg user">How can I save more next month?</p>
-          <p class="msg">Try reducing takeout by 20% to save around INR 2,800.</p>
-          <div class="chat-input">Ask a question...</div>
+      </section>
+
+      <section id="features" class="container section">
+        <h2>Everything you need in one place</h2>
+        <div class="grid">
+          <article class="card">
+            <h3>Expense Tracking</h3>
+            <p>Log expenses quickly and keep your records organized.</p>
+          </article>
+          <article class="card">
+            <h3>Visual Analytics</h3>
+            <p>Understand patterns with charts and category summaries.</p>
+          </article>
+          <article class="card">
+            <h3>Budget Planner</h3>
+            <p>Set goals and monitor spending limits in real time.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="steps" class="container section">
+        <h2>How it works</h2>
+        <div class="steps">
+          <div class="step"><strong>1</strong> Create your account</div>
+          <div class="step"><strong>2</strong> Add transactions</div>
+          <div class="step"><strong>3</strong> Use dashboard insights</div>
         </div>
       </section>
 
       <section id="security" class="container section security">
-        <div class="shield">S</div>
-        <h2>Your Data Stays Safe</h2>
-        <p>
-          We use safe sign-in and encryption to protect your account data.
-        </p>
-        <div class="badges">
-          <span>Encrypted</span>
-          <span>Private</span>
-          <span>2-Step Login</span>
-        </div>
-      </section>
-
-      <section id="pricing" class="container cta-wrap">
-        <div class="cta card">
-          <h2>Start Tracking Today</h2>
-          <p>Create your free account and manage your money better.</p>
-          <a class="btn btn-dark" href="./register.html">Create Free Account</a>
-        </div>
+        <h2>Safe by design</h2>
+        <p>Your session is token-based and the dashboard route is protected after authentication.</p>
       </section>
     </main>
 
-    <footer id="legal" class="footer">
-      <div class="container foot-grid">
-        <div>
-          <h4>Final Tracker</h4>
-          <small>&copy; 2026 Final Tracker. Engineered for the future of finance.</small>
-        </div>
+    <footer class="footer">
+      <div class="container">
+        <p>(c) 2026 Final Tracker</p>
       </div>
     </footer>
-    <script src="./scripts/auth.js"></script>
-    <script src="./scripts/index.js"></script>
   </body>
 </html>
