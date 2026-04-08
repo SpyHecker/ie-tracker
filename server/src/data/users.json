@@ -1,0 +1,9 @@
+[
+  {
+    "id": "e8aefd2f-77a0-44b9-8da8-b3d26d1cd9c0",
+    "name": "QA User",
+    "email": "qa+54b228fd@example.com",
+    "passwordHash": "$2a$10$7ue0m3FSYvCjNdB2JiUgE.ZIsxfA3iSkFKmcr10ZfUt9IUiPSa8VO",
+    "createdAt": "2026-04-08T12:33:59.938Z"
+  }
+]
