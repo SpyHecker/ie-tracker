@@ -1,6 +1,15 @@
 const loginForm = document.getElementById("loginForm");
 const loginMessage = document.getElementById("loginMessage");
 const loginBtn = document.getElementById("loginBtn");
+const socialButtons = document.querySelectorAll("[data-oauth]");
+
+window.authClient.redirectIfAuthenticated("./index.html");
+
+socialButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    loginMessage.textContent = `${button.dataset.oauth} login is not available yet. Please use email and password.`;
+  });
+});
 
 if (loginForm) {
   loginForm.addEventListener("submit", async (event) => {
@@ -8,7 +17,7 @@ if (loginForm) {
     loginMessage.textContent = "";
     loginMessage.classList.remove("success");
     loginBtn.disabled = true;
-    loginBtn.textContent = "AUTHENTICATING...";
+    loginBtn.textContent = "Logging in...";
 
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value;
@@ -21,13 +30,13 @@ if (loginForm) {
 
       window.authClient.setSession(data.token, data.user);
       loginMessage.classList.add("success");
-      loginMessage.textContent = "Access granted. Redirecting...";
+      loginMessage.textContent = "Login successful. Redirecting...";
       window.location.href = "./index.html";
     } catch (error) {
       loginMessage.textContent = error.message;
     } finally {
       loginBtn.disabled = false;
-      loginBtn.textContent = "INITIALIZE TERMINAL";
+      loginBtn.textContent = "LOGIN";
     }
   });
 }

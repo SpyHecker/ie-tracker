@@ -1,6 +1,15 @@
 const registerForm = document.getElementById("registerForm");
 const registerMessage = document.getElementById("registerMessage");
 const registerBtn = document.getElementById("registerBtn");
+const socialButtons = document.querySelectorAll("[data-oauth]");
+
+window.authClient.redirectIfAuthenticated("./index.html");
+
+socialButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    registerMessage.textContent = `${button.dataset.oauth} signup is not available yet. Please use the form.`;
+  });
+});
 
 if (registerForm) {
   registerForm.addEventListener("submit", async (event) => {
@@ -19,7 +28,7 @@ if (registerForm) {
     }
 
     registerBtn.disabled = true;
-    registerBtn.textContent = "INITIALIZING...";
+    registerBtn.textContent = "Creating...";
 
     try {
       const data = await window.authClient.api("/register", {
@@ -29,13 +38,13 @@ if (registerForm) {
 
       window.authClient.setSession(data.token, data.user);
       registerMessage.classList.add("success");
-      registerMessage.textContent = "Account created. Redirecting to terminal...";
-      window.location.href = "./login.html";
+      registerMessage.textContent = "Account created. Redirecting...";
+      window.location.href = "./index.html";
     } catch (error) {
       registerMessage.textContent = error.message;
     } finally {
       registerBtn.disabled = false;
-      registerBtn.textContent = "Initialize Protocol";
+      registerBtn.textContent = "Create Account";
     }
   });
 }
