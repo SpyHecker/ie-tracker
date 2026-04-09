@@ -22,7 +22,7 @@ export default function RegisterPage() {
     let mounted = true;
     validateSession().then((user) => {
       if (mounted && user) {
-        navigate("/", { replace: true });
+        navigate("/dashboard", { replace: true });
       }
     });
 
@@ -67,7 +67,7 @@ export default function RegisterPage() {
       setSession(data.token, data.user);
       setIsSuccess(true);
       setMessage("Account created. Redirecting...");
-      navigate("/", { replace: true });
+      navigate("/dashboard", { replace: true });
     } catch (error) {
       setMessage(error.message);
     } finally {

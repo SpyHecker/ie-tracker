@@ -17,7 +17,7 @@ export default function LoginPage() {
     let mounted = true;
     validateSession().then((user) => {
       if (mounted && user) {
-        navigate("/", { replace: true });
+        navigate("/dashboard", { replace: true });
       }
     });
 
@@ -54,7 +54,7 @@ export default function LoginPage() {
       setSession(data.token, data.user);
       setIsSuccess(true);
       setMessage("Login successful. Redirecting...");
-      navigate("/", { replace: true });
+      navigate("/dashboard", { replace: true });
     } catch (error) {
       setMessage(error.message);
     } finally {
