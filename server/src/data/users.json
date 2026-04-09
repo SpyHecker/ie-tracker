@@ -5,5 +5,12 @@
     "email": "qa+54b228fd@example.com",
     "passwordHash": "$2a$10$7ue0m3FSYvCjNdB2JiUgE.ZIsxfA3iSkFKmcr10ZfUt9IUiPSa8VO",
     "createdAt": "2026-04-08T12:33:59.938Z"
+  },
+  {
+    "id": "9fa5445d-3054-42ff-b4ea-cac54952d4f3",
+    "name": "Admin",
+    "email": "admin@gmail.com",
+    "passwordHash": "$2a$10$TJt1iBAbOsDFo05NBPvrnuNvR/8ZuhfivBmsGtfjBsVvJ83bEygbC",
+    "createdAt": "2026-04-09T10:40:38.110Z"
   }
 ]
