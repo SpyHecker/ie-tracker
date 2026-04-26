@@ -1,15 +1,54 @@
-ï»¿import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { clearSession, validateSession } from "../lib/authClient";
 import { usePageStyle, usePageTitle } from "../lib/page";
 
+const transactions = [
+  {
+    id: 1,
+    icon: "cart",
+    title: "Whole Foods Market",
+    meta: "Groceries • Oct 24, 2023",
+    amount: "-$142.50",
+    tone: "debit",
+    status: "CLEARED"
+  },
+  {
+    id: 2,
+    icon: "bolt",
+    title: "Pacific Gas & Electric",
+    meta: "Utilities • Oct 22, 2023",
+    amount: "-$85.00",
+    tone: "debit",
+    status: "CLEARED"
+  },
+  {
+    id: 3,
+    icon: "briefcase",
+    title: "TechCorp Inc. Payroll",
+    meta: "Income • Oct 15, 2023",
+    amount: "+$4,225.00",
+    tone: "credit",
+    status: "CLEARED"
+  },
+  {
+    id: 4,
+    icon: "play",
+    title: "Netflix Subscription",
+    meta: "Entertainment • Oct 12, 2023",
+    amount: "-$15.99",
+    tone: "debit",
+    status: "PENDING"
+  }
+];
+
 export default function DashboardPage() {
   const navigate = useNavigate();
-  const [userName, setUserName] = useState("Guest");
-  const [userInitial, setUserInitial] = useState("G");
+  const [userName, setUserName] = useState("Alex");
+  const [userInitial, setUserInitial] = useState("A");
   const [isLoading, setIsLoading] = useState(true);
 
-  usePageTitle("Dashboard | Final Tracker");
+  usePageTitle("Dashboard | Fintrack");
   usePageStyle("/styles/dashboard.css");
 
   useEffect(() => {
@@ -23,7 +62,7 @@ export default function DashboardPage() {
         return;
       }
 
-      const displayName = user.name || user.email || "User";
+      const displayName = user.name || user.email || "Alex";
       setUserName(displayName);
       setUserInitial(displayName.trim().charAt(0).toUpperCase());
       setIsLoading(false);
@@ -44,225 +83,137 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="dashboard-body">
-      <div className="page-bg"></div>
-
-      <header className="topbar-wrap">
-        <div className="topbar">
-          <div className="brand">FinAI Tracker</div>
-
-          <div className="topbar-links" role="navigation" aria-label="Primary">
-            <a className="active" href="/dashboard">Dashboard</a>
-            <a href="#">Add Transaction</a>
-            <a href="#">Analytics</a>
-            <a href="#">Reports</a>
-            <a href="#">AI Insights</a>
-            <a href="#">Budget Planner</a>
-          </div>
-
-          <div className="topbar-actions">
-            <button className="icon-btn" type="button" aria-label="Notifications">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M12 22a2.6 2.6 0 0 0 2.45-1.75h-4.9A2.6 2.6 0 0 0 12 22Zm7.3-5.2h-1.1v-5.15c0-3.3-2.03-6.06-5.05-6.86V3.9a1.15 1.15 0 1 0-2.3 0v.9C7.82 5.59 5.8 8.35 5.8 11.65v5.15H4.7a1 1 0 0 0 0 2h14.6a1 1 0 1 0 0-2Z"></path>
-              </svg>
-            </button>
-
-            <button className="profile-btn" type="button">
-              <span className="avatar">{userInitial}</span>
-              <span>{userName}</span>
-            </button>
-
-            <button className="logout-btn" type="button" onClick={onLogout}>Logout</button>
-          </div>
+    <div className="db-shell">
+      <aside className="db-sidebar">
+        <div className="sidebar-brand">
+          <h1>FinTrack</h1>
+          <p>Wealth Management</p>
         </div>
-      </header>
 
-      <main className="dashboard container">
-        <section className="overview-head">
-          <div>
-            <h1>Portfolio Overview</h1>
-            <p>Welcome back, <span>{userName}</span>, your financial health is <em>Optimal</em></p>
+        <nav className="sidebar-nav" aria-label="Dashboard sections">
+          <a className="active" href="/dashboard">Dashboard</a>
+          <a href="#">Transactions</a>
+          <a href="#">Budgeting</a>
+          <a href="#">Savings Goals</a>
+        </nav>
+
+        <div className="sidebar-foot">
+          <button type="button" className="settings-btn">Settings</button>
+          <button type="button" className="add-btn">+ Add Transaction</button>
+          <button type="button" className="logout-link" onClick={onLogout}>Logout</button>
+        </div>
+      </aside>
+
+      <section className="db-main">
+        <header className="db-topbar">
+          <label className="search-wrap" aria-label="Search">
+            <span>??</span>
+            <input type="text" placeholder="Search transactions, categories..." />
+          </label>
+
+          <div className="top-actions">
+            <button type="button" aria-label="Notifications">??</button>
+            <button type="button" aria-label="Help">?</button>
+            <div className="profile-chip" title={userName}>{userInitial}</div>
           </div>
-          <button className="btn-cyan" type="button">+ Add Transaction</button>
-        </section>
+        </header>
 
-        <section className="metrics-grid" aria-label="Summary cards">
-          <article className="panel metric-card metric-glow-cyan">
-            <div className="metric-top">
-              <span className="metric-icon">$</span>
-              <span className="chip positive">+12.4%</span>
+        <main className="db-content">
+          <section className="welcome-row">
+            <div>
+              <h2>Welcome back, {userName}</h2>
+              <p>Here&apos;s a summary of your finances for October.</p>
             </div>
-            <p>Total Balance</p>
-            <h3>$142,500.00</h3>
-          </article>
-
-          <article className="panel metric-card">
-            <div className="metric-top">
-              <span className="metric-icon">+%</span>
-              <span className="chip neutral">+8.2%</span>
+            <div className="welcome-actions">
+              <button type="button" className="ghost-btn">Export</button>
+              <button type="button" className="primary-btn">+ Record Income</button>
             </div>
-            <p>Monthly Income</p>
-            <h3>$15,200.00</h3>
-          </article>
+          </section>
 
-          <article className="panel metric-card">
-            <div className="metric-top">
-              <span className="metric-icon">-%</span>
-              <span className="chip danger">-31%</span>
-            </div>
-            <p>Monthly Expense</p>
-            <h3>$4,850.00</h3>
-          </article>
-
-          <article className="panel metric-card">
-            <div className="metric-top">
-              <span className="metric-icon">AI</span>
-              <span className="chip success">Excellent</span>
-            </div>
-            <p>Savings Score</p>
-            <h3>92/100</h3>
-          </article>
-        </section>
-
-        <section className="content-grid">
-          <div className="left-column">
-            <article className="panel chart-panel">
-              <div className="panel-head">
-                <h2>Income vs Expense</h2>
-                <div className="legend">
-                  <span><i className="dot income"></i>Income</span>
-                  <span><i className="dot expense"></i>Expense</span>
+          <section className="summary-grid" aria-label="Summary cards">
+            <article className="card balance-card">
+              <div className="card-head">
+                <div>
+                  <h3>Total Balance</h3>
+                  <strong>$24,562.00</strong>
+                  <p><span>+12.5%</span> vs last month</p>
                 </div>
+                <div className="bank-icon">??</div>
               </div>
 
-              <div className="line-chart" role="img" aria-label="Income and expense trend from January to July">
-                <svg viewBox="0 0 880 320" preserveAspectRatio="none" aria-hidden="true">
-                  <defs>
-                    <linearGradient id="incomeFill" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#22e5ff" stopOpacity="0.33" />
-                      <stop offset="100%" stopColor="#22e5ff" stopOpacity="0" />
-                    </linearGradient>
-                  </defs>
-                  <path className="income-fill" d="M0,236 C118,224 184,150 292,162 C380,172 440,266 540,220 C625,182 700,48 880,120 L880,320 L0,320 Z"></path>
-                  <path className="income-line" d="M0,236 C118,224 184,150 292,162 C380,172 440,266 540,220 C625,182 700,48 880,120"></path>
-                  <path className="expense-line" d="M0,270 C138,255 200,244 330,236 C462,228 578,236 704,224 C788,216 828,215 880,214"></path>
+              <div className="balance-chart" aria-hidden="true">
+                <svg viewBox="0 0 640 160" preserveAspectRatio="none">
+                  <path d="M0,132 C120,118 188,100 256,80 C334,56 430,72 520,92 C570,103 615,84 640,58" />
                 </svg>
-              </div>
-
-              <div className="months" aria-hidden="true">
-                <span>Jan</span>
-                <span>Feb</span>
-                <span>Mar</span>
-                <span>Apr</span>
-                <span>May</span>
-                <span>Jun</span>
-                <span>Jul</span>
               </div>
             </article>
 
-            <article className="panel transactions-panel">
-              <div className="panel-head">
-                <h2>Recent Transactions</h2>
+            <div className="income-stack">
+              <article className="card stat-card income">
+                <div>
+                  <h3>Monthly Income</h3>
+                  <strong>$8,450.00</strong>
+                </div>
+                <span>?</span>
+              </article>
+              <article className="card stat-card expense">
+                <div>
+                  <h3>Monthly Expenses</h3>
+                  <strong>$3,240.50</strong>
+                </div>
+                <span>?</span>
+              </article>
+            </div>
+          </section>
+
+          <section className="lower-grid">
+            <article className="card tx-card">
+              <div className="card-title">
+                <h3>Recent Transactions</h3>
                 <a href="#">View All</a>
               </div>
 
-              <div className="txn-list">
-                <div className="txn-item">
-                  <div className="txn-meta">
-                    <span className="txn-icon">FD</span>
-                    <div>
-                      <h4>The Gourmet Bistro</h4>
-                      <p>24 Oct 2023 - Food and Dining</p>
+              <div className="tx-list">
+                {transactions.map((item) => (
+                  <div className="tx-item" key={item.id}>
+                    <div className="tx-left">
+                      <div className={`tx-icon ${item.icon}`}>{item.icon === "cart" ? "??" : item.icon === "bolt" ? "?" : item.icon === "briefcase" ? "??" : "?"}</div>
+                      <div>
+                        <h4>{item.title}</h4>
+                        <p>{item.meta}</p>
+                      </div>
                     </div>
-                  </div>
-                  <strong className="amount negative">-$142.50</strong>
-                </div>
 
-                <div className="txn-item">
-                  <div className="txn-meta">
-                    <span className="txn-icon">IN</span>
-                    <div>
-                      <h4>Tech Corp Salary</h4>
-                      <p>22 Oct 2023 - Income</p>
+                    <div className="tx-right">
+                      <strong className={item.tone}>{item.amount}</strong>
+                      <small>{item.status}</small>
                     </div>
                   </div>
-                  <strong className="amount positive">+$8,500.00</strong>
-                </div>
-
-                <div className="txn-item">
-                  <div className="txn-meta">
-                    <span className="txn-icon">SH</span>
-                    <div>
-                      <h4>Apple Store</h4>
-                      <p>20 Oct 2023 - Electronics</p>
-                    </div>
-                  </div>
-                  <strong className="amount negative">-$1,299.00</strong>
-                </div>
+                ))}
               </div>
             </article>
-          </div>
 
-          <aside className="right-column">
-            <article className="panel insight-panel">
-              <h2>AI Insights</h2>
-              <blockquote>
-                "You spent 30% more on food this month than your usual average. Consider reducing dining out."
-              </blockquote>
-              <blockquote>
-                "Based on your current savings trend, you can potentially save an extra $2,000 by year-end."
-              </blockquote>
-              <button type="button" className="outline-btn">Optimize My Budget</button>
-            </article>
+            <article className="card spend-card">
+              <h3>Spending by Category</h3>
 
-            <article className="panel donut-panel">
-              <h2>Spending Categories</h2>
               <div className="donut-wrap">
-                <div className="donut" role="img" aria-label="Housing 45, Food 30, Bills 15, Travel 10 percent">
+                <div className="donut">
                   <div>
-                    <strong>$4,850</strong>
-                    <span>Total Spent</span>
+                    <span>Total</span>
+                    <strong>$3.2k</strong>
                   </div>
                 </div>
               </div>
-              <div className="donut-legend">
-                <span><i style={{ background: "#1fe5ff" }}></i>Housing (45%)</span>
-                <span><i style={{ background: "#a98bff" }}></i>Food (30%)</span>
-                <span><i style={{ background: "#f7a8aa" }}></i>Bills (15%)</span>
-                <span><i style={{ background: "#d7dfef" }}></i>Travel (10%)</span>
-              </div>
+
+              <ul className="legend">
+                <li><i className="dot housing"></i><span>Housing</span><strong>45%</strong></li>
+                <li><i className="dot food"></i><span>Food &amp; Dining</span><strong>30%</strong></li>
+                <li><i className="dot transport"></i><span>Transportation</span><strong>25%</strong></li>
+              </ul>
             </article>
-
-            <article className="panel budget-panel">
-              <h2>Budget Progress</h2>
-
-              <div className="progress-item">
-                <div className="progress-top">
-                  <span>Food and Dining</span>
-                  <span>$4,000 / $6,000</span>
-                </div>
-                <div className="track"><i style={{ width: "68%", "--bar": "#23e8ff" }}></i></div>
-              </div>
-
-              <div className="progress-item">
-                <div className="progress-top">
-                  <span>Personal Entertainment</span>
-                  <span>$1,200 / $1,500</span>
-                </div>
-                <div className="track"><i style={{ width: "80%", "--bar": "#ceb4ff" }}></i></div>
-              </div>
-
-              <div className="progress-item">
-                <div className="progress-top">
-                  <span>Automobile</span>
-                  <span>$2,100 / $2,000</span>
-                </div>
-                <div className="track"><i style={{ width: "100%", "--bar": "#ffb2b1" }}></i></div>
-              </div>
-            </article>
-          </aside>
-        </section>
-      </main>
+          </section>
+        </main>
+      </section>
     </div>
   );
 }
