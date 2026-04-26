@@ -4,6 +4,7 @@ const path = require("path");
 const fs = require("fs");
 const { port } = require("./config/env");
 const authRoutes = require("./routes/auth.routes");
+const { ensureDemoUser } = require("./services/userStore");
 
 const app = express();
 const clientDistPath = path.resolve(process.cwd(), "client", "dist");
@@ -49,6 +50,15 @@ app.use((err, _req, res, _next) => {
   });
 });
 
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
+async function bootstrap() {
+  await ensureDemoUser();
+
+  app.listen(port, () => {
+    console.log(`Server running on http://localhost:${port}`);
+  });
+}
+
+bootstrap().catch((error) => {
+  console.error("Failed to start server:", error);
+  process.exit(1);
 });
