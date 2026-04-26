@@ -2,195 +2,163 @@ import { Link } from "react-router-dom";
 import { usePageStyle, usePageTitle } from "../lib/page";
 
 export default function HomePage() {
-  usePageTitle("Final Tracker");
+  usePageTitle("Fintrack | Smart Budgeting");
   usePageStyle("/styles/styles.css");
 
   return (
-    <>
-      <div className="page-bg"></div>
-      <header className="nav-wrap">
-        <nav className="nav">
-          <div className="logo">Final Tracker</div>
-          <ul className="nav-links">
-            <li><a className="active" href="#platform">Platform</a></li>
-            <li><a href="#how-it-works">How it Works</a></li>
-            <li><a href="#security">Security</a></li>
-          </ul>
-        </nav>
+    <div className="landing-page">
+      <header className="site-header">
+        <div className="container nav-shell">
+          <Link className="brand" to="/">Fintrack</Link>
+
+          <nav className="main-nav" aria-label="Main navigation">
+            <a href="#features">Features</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#about">About</a>
+            <a href="#support">Support</a>
+          </nav>
+
+          <div className="auth-links">
+            <Link className="login-link" to="/login">Log In</Link>
+            <Link className="signup-link" to="/register">Sign Up</Link>
+          </div>
+        </div>
       </header>
 
       <main>
-        <section className="hero container">
-          <div className="hero-copy">
-            <h1>Track Your <span>Money</span> Easily</h1>
-            <p>
-              Add income and expenses in one place, and see where your money goes.
-            </p>
-            <div className="hero-cta">
-              <Link className="btn btn-cyan" to="/register">Start Free</Link>
-            </div>
-          </div>
-          <div id="observatory" className="hero-card card">
-            <div className="hero-card-top">
-              <span className="chip">Live</span>
-              <span className="status-dot"></span>
-            </div>
-            <div className="chart-frame">
-              <svg viewBox="0 0 500 190" preserveAspectRatio="none" aria-hidden="true">
-                <path
-                  d="M0,145 C70,140 110,160 170,125 C220,95 280,20 335,80 C385,138 430,160 500,40"
-                  fill="none"
-                  stroke="#2fe7ff"
-                  strokeWidth="5"
-                />
-              </svg>
-            </div>
-            <div className="hero-metrics">
-              <div className="metric card-small">
-                <span>Balance</span>
-                <strong>$45,280</strong>
+        <section className="hero-wrap" id="about">
+          <div className="container hero-grid">
+            <div className="hero-copy">
+              <span className="badge">New: Smart Categorization</span>
+              <h1>
+                Master Your Money,
+                <span>Effortlessly</span>
+              </h1>
+              <p>
+                The clear, calm financial tracker built for students and young professionals. Remove the stress from budgeting and start building a secure financial trajectory today.
+              </p>
+
+              <div className="hero-actions">
+                <Link className="btn btn-primary" to="/register">Start Tracking for Free</Link>
+                <a className="btn btn-ghost" href="#features">View Demo</a>
               </div>
-              <div className="metric card-small">
-                <span>This Month</span>
-                <strong>INR 12,400</strong>
+
+              <div className="social-proof">
+                <div className="avatars" aria-hidden="true">
+                  <span>A</span>
+                  <span>R</span>
+                  <span>K</span>
+                </div>
+                <p>Joined by 10,000+ young professionals</p>
               </div>
             </div>
-          </div>
-        </section>
 
-        <section id="platform" className="container section">
-          <div className="section-head">
-            <h2>Simple Tools for Daily Money Tracking</h2>
-            <p>Everything you need to track spending and save better.</p>
-          </div>
-          <div className="feature-grid">
-            <article className="card feature">
-              <h3>Expense Tracking</h3>
-              <p>Keep a clear record of daily spending.</p>
-            </article>
-            <article className="card feature">
-              <h3>Helpful Tips</h3>
-              <p>Get easy suggestions to improve your budget.</p>
-            </article>
-            <article className="card feature">
-              <h3>Clear Charts</h3>
-              <p>See income and expenses with simple graphs.</p>
-            </article>
-            <article className="card feature">
-              <h3>Budget Planning</h3>
-              <p>Plan your month and track your goal progress.</p>
-            </article>
-            <article className="card feature">
-              <h3>Data Safety</h3>
-              <p>Your account data stays private and protected.</p>
-            </article>
-            <article className="card feature">
-              <h3>Quick Reports</h3>
-              <p>Check summaries anytime to make better money decisions.</p>
-            </article>
-          </div>
-        </section>
+            <div className="hero-visual" aria-hidden="true">
+              <div className="screen-shell">
+                <div className="screen-top">
+                  <span>Dashboard Overview</span>
+                  <strong>80/10 Goals</strong>
+                </div>
 
-        <section id="how-it-works" className="container section">
-          <div className="section-head">
-            <h2>Overview</h2>
-            <p>A quick view of your monthly progress.</p>
-          </div>
-          <div className="card observatory">
-            <div className="obs-side">
-              <div className="obs-metric">
-                <span>Total Balance</span>
-                <strong>INR 24,500.00</strong>
-              </div>
-              <div className="obs-progress">
-                <span>Goal Progress</span>
-                <div><i style={{ width: "70%" }}></i></div>
+                <div className="analytics-card">
+                  <h3>Outcome</h3>
+                  <div className="table-head">
+                    <span>Saving</span>
+                    <span>200</span>
+                    <span>700</span>
+                  </div>
+                  <div className="table-grid">
+                    <div>
+                      <p>42%</p>
+                      <small>Budget Used</small>
+                    </div>
+                    <div>
+                      <p>26</p>
+                      <small>Transactions</small>
+                    </div>
+                    <div>
+                      <p>+6000</p>
+                      <small>Remaining</small>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="ring">80%</div>
               </div>
             </div>
-            <div className="obs-chart">
-              <div className="bar" style={{ height: "48%" }}></div>
-              <div className="bar" style={{ height: "72%" }}></div>
-              <div className="bar" style={{ height: "38%" }}></div>
-              <div className="bar" style={{ height: "58%" }}></div>
-              <div className="bar" style={{ height: "66%" }}></div>
-              <div className="bar" style={{ height: "31%" }}></div>
-              <div className="bar" style={{ height: "81%" }}></div>
+          </div>
+        </section>
+
+        <section className="reasons" id="features">
+          <div className="container">
+            <div className="section-head">
+              <h2>Why choose Fintrack?</h2>
+              <p>
+                Designed specifically for the needs of those starting their financial journey, offering clarity without overwhelming complexity.
+              </p>
             </div>
-          </div>
-        </section>
 
-        <section className="container section">
-          <div className="section-head">
-            <h2>How It Works in 3 Steps</h2>
-          </div>
-          <div className="steps">
-            <article className="step">
-              <div className="step-icon">1</div>
-              <h3>Add Income and Expenses</h3>
-              <p>Enter your daily money records.</p>
-            </article>
-            <article className="step">
-              <div className="step-icon purple">2</div>
-              <h3>See Spending Trends</h3>
-              <p>Check simple category-wise summaries.</p>
-            </article>
-            <article className="step">
-              <div className="step-icon">3</div>
-              <h3>Follow Helpful Tips</h3>
-              <p>Use suggestions to save more each month.</p>
-            </article>
-          </div>
-        </section>
+            <div className="card-grid">
+              <article className="reason-card">
+                <div className="icon-box icon-blue">
+                  <svg viewBox="0 0 24 24" role="img" aria-label="Student budgeting icon">
+                    <path d="M3 9L12 4L21 9L12 14L3 9Z" fill="currentColor" />
+                    <path d="M7 12V16C7 17.2 9.7 18 12 18C14.3 18 17 17.2 17 16V12" stroke="currentColor" strokeWidth="1.6" fill="none" />
+                  </svg>
+                </div>
+                <h3>Student-Friendly Budgeting</h3>
+                <p>
+                  Flexible budget cycles that align with semesters or irregular student income. Easy to adjust, impossible to break.
+                </p>
+              </article>
 
-        <section className="container section assistant">
-          <div className="assistant-copy">
-            <h2>Your Money Assistant</h2>
-            <p>Ask simple questions and get easy-to-read answers.</p>
-            <ul>
-              <li>Simple summaries for any date range</li>
-              <li>Alerts and savings reminders</li>
-              <li>Quick spending checks anytime</li>
-            </ul>
-          </div>
-          <div className="card chat-card">
-            <h4>Final Assistant</h4>
-            <p className="msg">Your food spending was higher last week.</p>
-            <p className="msg user">How can I save more next month?</p>
-            <p className="msg">Try reducing takeout by 20% to save around INR 2,800.</p>
-            <div className="chat-input">Ask a question...</div>
-          </div>
-        </section>
+              <article className="reason-card">
+                <div className="icon-box icon-sky">
+                  <svg viewBox="0 0 24 24" role="img" aria-label="Categorization icon">
+                    <rect x="4" y="5" width="6" height="6" rx="1" fill="currentColor" />
+                    <rect x="14" y="5" width="6" height="6" rx="1" fill="currentColor" />
+                    <rect x="9" y="14" width="6" height="6" rx="1" fill="currentColor" />
+                  </svg>
+                </div>
+                <h3>Smart Expense Categorization</h3>
+                <p>
+                  Our AI automatically sorts your purchases into logical buckets, so you know exactly where your money goes without manual entry.
+                </p>
+              </article>
 
-        <section id="security" className="container section security">
-          <div className="shield">S</div>
-          <h2>Your Data Stays Safe</h2>
-          <p>
-            We use safe sign-in and encryption to protect your account data.
-          </p>
-          <div className="badges">
-            <span>Encrypted</span>
-            <span>Private</span>
-            <span>2-Step Login</span>
-          </div>
-        </section>
-
-        <section id="pricing" className="container cta-wrap">
-          <div className="cta card">
-            <h2>Start Tracking Today</h2>
-            <p>Create your free account and manage your money better.</p>
-            <Link className="btn btn-dark" to="/register">Create Free Account</Link>
+              <article className="reason-card">
+                <div className="icon-box icon-peach">
+                  <svg viewBox="0 0 24 24" role="img" aria-label="Growth chart icon">
+                    <path d="M5 16L10 11L13 14L19 8" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M16 8H19V11" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </div>
+                <h3>Visual Growth Tracking</h3>
+                <p>
+                  Watch your net worth grow with beautiful, easy-to-read charts. Celebrate milestones and stay motivated on your financial path.
+                </p>
+              </article>
+            </div>
           </div>
         </section>
       </main>
 
-      <footer id="legal" className="footer">
-        <div className="container foot-grid">
+      <footer className="site-footer" id="support">
+        <div className="container footer-shell">
           <div>
-            <h4>Final Tracker</h4>
-            <small>&copy; 2026 Final Tracker. Engineered for the future of finance.</small>
+            <h4>Fintrack</h4>
+            <p>&copy; 2024 Fintrack Inc. Precision tools for modern professionals.</p>
+          </div>
+
+          <div className="footer-links" id="pricing">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Security</a>
+            <a href="#">Help Center</a>
+            <a href="#">Cookies</a>
           </div>
         </div>
       </footer>
-    </>
+    </div>
   );
 }
