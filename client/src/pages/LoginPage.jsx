@@ -10,7 +10,7 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [form, setForm] = useState({ email: "", password: "" });
 
-  usePageTitle("Login | Final Tracker");
+  usePageTitle("Log In | Fintrack");
   usePageStyle("/styles/login.css");
 
   useEffect(() => {
@@ -63,96 +63,95 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="login-shell">
-      <section className="left">
-        <Link className="brand" to="/">Final Tracker</Link>
-        <h1>
-          Welcome
-          <br />
-          <span>Back</span>
-        </h1>
-        <p>Login to continue tracking your income and expenses.</p>
-
-        <div className="mock-grid">
-          <article className="vault card">
-            <span className="label">TOTAL SAVINGS</span>
-            <small>THIS MONTH</small>
-            <h3>$142,500.00</h3>
-            <strong>+12.4% this month</strong>
-          </article>
-          <article className="split card">
-            <span className="label">SPENDING SPLIT</span>
-            <div className="bars">
-              <i></i><i></i><i></i><i></i><i></i>
-            </div>
-          </article>
-          <article className="ai card">
-            <h4>Budget Tip</h4>
-            <p>You can save more by lowering food delivery spend.</p>
-            <span>Easy Suggestion</span>
-          </article>
+    <div className="auth-page login-page">
+      <header className="auth-topbar">
+        <div className="auth-container topbar-shell">
+          <Link className="brand" to="/">Fintrack</Link>
+          <p>
+            New here? <Link to="/register">Create account</Link>
+          </p>
         </div>
-      </section>
+      </header>
 
-      <section className="right">
-        <form className="panel" onSubmit={onSubmit}>
-          <h2>Login</h2>
-          <p>Enter your account details.</p>
+      <main className="auth-container auth-layout">
+        <section className="auth-visual">
+          <span className="pill">Secure Access</span>
+          <h1>Welcome back to your money dashboard.</h1>
+          <p>Log in to track income, review spending, and keep your financial goals on course.</p>
 
-          <div className="social-row">
-            <button type="button" className="social" onClick={() => onSocial("Google")}>Google</button>
-            <button type="button" className="social" onClick={() => onSocial("Facebook")}>Facebook</button>
+          <div className="metric-grid">
+            <article>
+              <small>Monthly Budget</small>
+              <h3>$3,400</h3>
+              <p>Within target this month.</p>
+            </article>
+            <article>
+              <small>Savings Progress</small>
+              <h3>78%</h3>
+              <p>Goal updates in real-time.</p>
+            </article>
           </div>
+        </section>
 
-          <div className="separator">OR USE EMAIL</div>
+        <section className="auth-form-wrap">
+          <form className="auth-form" onSubmit={onSubmit}>
+            <h2>Log In</h2>
+            <p>Use your Fintrack account credentials.</p>
 
-          <label htmlFor="email">EMAIL</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            placeholder="you@example.com"
-            required
-            value={form.email}
-            onChange={onChange}
-          />
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="you@example.com"
+              required
+              value={form.email}
+              onChange={onChange}
+            />
 
-          <div className="row">
-            <label htmlFor="password">PASSWORD</label>
-            <Link to="/register">Forgot password?</Link>
-          </div>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            placeholder=".............."
-            required
-            value={form.password}
-            onChange={onChange}
-          />
+            <div className="row-head">
+              <label htmlFor="password">Password</label>
+              <Link to="/register">Forgot password?</Link>
+            </div>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              placeholder="Enter your password"
+              required
+              value={form.password}
+              onChange={onChange}
+            />
 
-          <label className="checkbox">
-            <input type="checkbox" />
-            <span>Keep me logged in</span>
-          </label>
+            <button className="primary-btn" type="submit" disabled={isLoading}>
+              {isLoading ? "Logging in..." : "Log In"}
+            </button>
 
-          <button className="submit" type="submit" disabled={isLoading}>
-            {isLoading ? "Logging in..." : "LOGIN"}
-          </button>
+            <div className="divider">or continue with</div>
+            <div className="social-row">
+              <button type="button" className="social-btn" onClick={() => onSocial("Google")}>Google</button>
+              <button type="button" className="social-btn" onClick={() => onSocial("Facebook")}>Facebook</button>
+            </div>
 
-          <p className={`form-message${isSuccess ? " success" : ""}`} role="status" aria-live="polite">
-            {message}
-          </p>
+            <div className="demo-credentials">
+              <p>Demo login</p>
+              <code>Email: demo@fintrack.app</code>
+              <code>Password: Demo@123</code>
+            </div>
 
-          <p className="footnote">
-            New user?
-            <Link to="/register"> Create account</Link>
-          </p>
-          <p className="footnote">
-            <Link to="/">Back to Home</Link>
-          </p>
-        </form>
-      </section>
+            <p className={`form-message${isSuccess ? " success" : ""}`} role="status" aria-live="polite">
+              {message}
+            </p>
+
+            <p className="footnote">
+              Need an account? <Link to="/register">Sign up</Link>
+            </p>
+            <p className="footnote">
+              <Link to="/">Back to home</Link>
+            </p>
+          </form>
+        </section>
+      </main>
     </div>
   );
 }

@@ -15,7 +15,7 @@ export default function RegisterPage() {
     confirmPassword: ""
   });
 
-  usePageTitle("Create Account | Final Tracker");
+  usePageTitle("Create Account | Fintrack");
   usePageStyle("/styles/register.css");
 
   useEffect(() => {
@@ -76,115 +76,115 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="register-shell">
-      <section className="left-side">
-        <Link className="home-link" to="/">Final Tracker</Link>
-        <h1>
-          Create Your
-          <br />
-          <span>Account</span>
-        </h1>
-        <p>
-          Start tracking your income and expenses in minutes.
-        </p>
-
-        <div className="visual-stack">
-          <article className="tile chart"></article>
-          <article className="tile card"></article>
-          <article className="tile coin"></article>
+    <div className="auth-page register-page">
+      <header className="auth-topbar">
+        <div className="auth-container topbar-shell">
+          <Link className="brand" to="/">Fintrack</Link>
+          <p>
+            Already have an account? <Link to="/login">Log in</Link>
+          </p>
         </div>
+      </header>
 
-        <small className="copyright">&copy; 2026 Final Tracker</small>
-      </section>
+      <main className="auth-container auth-layout">
+        <section className="auth-visual">
+          <span className="pill">Start In Minutes</span>
+          <h1>Create your Fintrack account.</h1>
+          <p>Set up your profile and begin managing your money with a simple, clear, and secure tracker.</p>
 
-      <section className="right-side">
-        <form className="register-panel" onSubmit={onSubmit}>
-          <div className="brand-row">
-            <span className="brand-icon">F</span>
-            <strong>Final Tracker</strong>
+          <div className="feature-list">
+            <article>
+              <h3>Smart categorization</h3>
+              <p>Auto-organize expenses with minimal manual effort.</p>
+            </article>
+            <article>
+              <h3>Student-friendly budgets</h3>
+              <p>Flexible planning cycles tailored for variable income.</p>
+            </article>
+            <article>
+              <h3>Visual growth tracking</h3>
+              <p>Follow progress with easy, focused dashboards.</p>
+            </article>
           </div>
+        </section>
 
-          <h2>Create Account</h2>
-          <p>Fill the form to get started.</p>
+        <section className="auth-form-wrap">
+          <form className="auth-form" onSubmit={onSubmit}>
+            <h2>Create Account</h2>
+            <p>Fill in your details to get started.</p>
 
-          <label htmlFor="fullName">FULL NAME</label>
-          <input
-            id="fullName"
-            name="fullName"
-            type="text"
-            placeholder="Your full name"
-            required
-            value={form.fullName}
-            onChange={onChange}
-          />
+            <label htmlFor="fullName">Full Name</label>
+            <input
+              id="fullName"
+              name="fullName"
+              type="text"
+              placeholder="Your full name"
+              required
+              value={form.fullName}
+              onChange={onChange}
+            />
 
-          <label htmlFor="email">EMAIL</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            placeholder="you@example.com"
-            required
-            value={form.email}
-            onChange={onChange}
-          />
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="you@example.com"
+              required
+              value={form.email}
+              onChange={onChange}
+            />
 
-          <div className="key-grid">
-            <div>
-              <label htmlFor="password">PASSWORD</label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                placeholder="........"
-                required
-                value={form.password}
-                onChange={onChange}
-              />
+            <div className="field-grid">
+              <div>
+                <label htmlFor="password">Password</label>
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="Create password"
+                  required
+                  value={form.password}
+                  onChange={onChange}
+                />
+              </div>
+              <div>
+                <label htmlFor="confirmPassword">Confirm Password</label>
+                <input
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  type="password"
+                  placeholder="Confirm password"
+                  required
+                  value={form.confirmPassword}
+                  onChange={onChange}
+                />
+              </div>
             </div>
-            <div>
-              <label htmlFor="confirmPassword">CONFIRM PASSWORD</label>
-              <input
-                id="confirmPassword"
-                name="confirmPassword"
-                type="password"
-                placeholder="........"
-                required
-                value={form.confirmPassword}
-                onChange={onChange}
-              />
+
+            <button className="primary-btn" type="submit" disabled={isLoading}>
+              {isLoading ? "Creating..." : "Create Account"}
+            </button>
+
+            <div className="divider">or continue with</div>
+            <div className="social-row">
+              <button type="button" className="social-btn" onClick={() => onSocial("Google")}>Google</button>
+              <button type="button" className="social-btn" onClick={() => onSocial("Facebook")}>Facebook</button>
             </div>
-          </div>
 
-          <button className="register-btn" type="submit" disabled={isLoading}>
-            {isLoading ? "Creating..." : "Create Account"}
-          </button>
+            <p className={`form-message${isSuccess ? " success" : ""}`} role="status" aria-live="polite">
+              {message}
+            </p>
 
-          <p className={`form-message${isSuccess ? " success" : ""}`} role="status" aria-live="polite">
-            {message}
-          </p>
-
-          <div className="separator">OR CONTINUE WITH</div>
-
-          <div className="socials">
-            <button type="button" onClick={() => onSocial("Google")}>GOOGLE</button>
-            <button type="button" onClick={() => onSocial("Facebook")}>FACEBOOK</button>
-          </div>
-
-          <p className="switch-auth">
-            Already have an account? <Link to="/login">Login</Link>
-          </p>
-          <p className="back-home">
-            <Link to="/">Back to Home</Link>
-          </p>
-        </form>
-
-        <div className="meta-strip">
-          <span>Simple</span>
-          <span>Fast</span>
-          <span>Reliable</span>
-        </div>
-      </section>
+            <p className="footnote">
+              Have an account? <Link to="/login">Log in</Link>
+            </p>
+            <p className="footnote">
+              <Link to="/">Back to home</Link>
+            </p>
+          </form>
+        </section>
+      </main>
     </div>
   );
 }
