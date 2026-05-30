@@ -1,16 +1,12 @@
 const bcrypt = require("bcryptjs");
-const crypto = require("crypto");
-const { addUser, findUserByEmail, findUserById } = require("../services/userStore");
+const {
+  toPublicUser,
+  findUserByEmail,
+  findUserById,
+  createUser,
+  updateMonthlyBudget
+} = require("../services/userService");
 const { createAuthToken } = require("../utils/token");
-
-function sanitizeUser(user) {
-  return {
-    id: user.id,
-    name: user.name,
-    email: user.email,
-    createdAt: user.createdAt
-  };
-}
 
 async function register(req, res) {
   const { name, email, password, confirmPassword } = req.body || {};
@@ -33,20 +29,21 @@ async function register(req, res) {
   }
 
   const passwordHash = await bcrypt.hash(password, 10);
-  const user = {
-    id: crypto.randomUUID(),
-    name: name.trim(),
-    email: email.trim().toLowerCase(),
-    passwordHash,
-    createdAt: new Date().toISOString()
-  };
+  const user = await createUser({
+    name,
+    email,
+    passwordHash
+  });
 
-  await addUser(user);
+  const token = createAuthToken({
+    id: user._id.toString(),
+    email: user.email,
+    name: user.name
+  });
 
-  const token = createAuthToken({ id: user.id, email: user.email, name: user.name });
   return res.status(201).json({
     token,
-    user: sanitizeUser(user)
+    user: toPublicUser(user)
   });
 }
 
@@ -67,10 +64,15 @@ async function login(req, res) {
     return res.status(401).json({ message: "Invalid credentials." });
   }
 
-  const token = createAuthToken({ id: user.id, email: user.email, name: user.name });
+  const token = createAuthToken({
+    id: user._id.toString(),
+    email: user.email,
+    name: user.name
+  });
+
   return res.json({
     token,
-    user: sanitizeUser(user)
+    user: toPublicUser(user)
   });
 }
 
@@ -81,11 +83,33 @@ async function me(req, res) {
     return res.status(404).json({ message: "User not found." });
   }
 
-  return res.json({ user: sanitizeUser(user) });
+  return res.json({ user: toPublicUser(user) });
+}
+
+async function updateProfile(req, res) {
+  const { monthlyBudget } = req.body || {};
+
+  if (monthlyBudget === undefined) {
+    return res.status(400).json({ message: "monthlyBudget is required." });
+  }
+
+  const parsed = Number(monthlyBudget);
+  if (!Number.isFinite(parsed) || parsed < 0) {
+    return res.status(400).json({ message: "monthlyBudget must be a non-negative number." });
+  }
+
+  const user = await updateMonthlyBudget(req.user.id, Number(parsed.toFixed(2)));
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found." });
+  }
+
+  return res.json({ user: toPublicUser(user) });
 }
 
 module.exports = {
   register,
   login,
-  me
+  me,
+  updateProfile
 };
