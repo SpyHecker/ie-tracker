@@ -1,16 +1,26 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import HomePage from "./pages/HomePage";
+import ProtectedRoute from "./components/ProtectedRoute";
+import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
-import DashboardPage from "./pages/DashboardPage";
+import AppPage from "./pages/AppPage";
 
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/dashboard" element={<DashboardPage />} />
+      <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+      <Route
+        path="/app"
+        element={
+          <ProtectedRoute>
+            <AppPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route path="/dashboard/*" element={<Navigate to="/app" replace />} />
+      <Route path="/auth" element={<Navigate to="/login" replace />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
