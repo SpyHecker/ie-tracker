@@ -1,190 +1,107 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { api, setSession, validateSession } from "../lib/authClient";
-import { usePageStyle, usePageTitle } from "../lib/page";
+import Layout from "../components/Layout";
+import { authApi, setSession, validateSession } from "../lib/api";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
-  const [message, setMessage] = useState("");
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [form, setForm] = useState({
-    fullName: "",
+    name: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirm: ""
   });
-
-  usePageTitle("Create Account | Fintrack");
-  usePageStyle("/styles/register.css");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    let mounted = true;
-    validateSession().then((user) => {
-      if (mounted && user) {
-        navigate("/dashboard", { replace: true });
-      }
-    });
-
-    return () => {
-      mounted = false;
-    };
+    validateSession().then((u) => u && navigate("/app", { replace: true }));
   }, [navigate]);
 
-  function onChange(event) {
-    const { name, value } = event.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-  }
-
-  function onSocial(provider) {
-    setIsSuccess(false);
-    setMessage(`${provider} signup is not available yet. Please use the form.`);
-  }
-
-  async function onSubmit(event) {
-    event.preventDefault();
-    setIsSuccess(false);
-    setMessage("");
-
-    if (form.password !== form.confirmPassword) {
-      setMessage("Passwords do not match.");
+  async function submit(e) {
+    e.preventDefault();
+    setError("");
+    if (form.password !== form.confirm) {
+      setError("Passwords do not match.");
       return;
     }
-
-    setIsLoading(true);
-
+    setLoading(true);
     try {
-      const data = await api("/register", {
+      const data = await authApi("/register", {
         method: "POST",
         body: JSON.stringify({
-          name: form.fullName.trim(),
-          email: form.email.trim(),
+          name: form.name,
+          email: form.email,
           password: form.password,
-          confirmPassword: form.confirmPassword
+          confirmPassword: form.confirm
         })
       });
-
       setSession(data.token, data.user);
-      setIsSuccess(true);
-      setMessage("Account created. Redirecting...");
-      navigate("/dashboard", { replace: true });
-    } catch (error) {
-      setMessage(error.message);
+      navigate("/app", { replace: true });
+    } catch (err) {
+      setError(err.message);
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   }
 
   return (
-    <div className="auth-page register-page">
-      <header className="auth-topbar">
-        <div className="auth-container topbar-shell">
-          <Link className="brand" to="/">Fintrack</Link>
-          <p>
-            Already have an account? <Link to="/login">Log in</Link>
-          </p>
-        </div>
-      </header>
+    <Layout>
+      <div className="auth-card">
+        <h1>Create account</h1>
+        <p className="muted">Start tracking your money in under a minute.</p>
 
-      <main className="auth-container auth-layout">
-        <section className="auth-visual">
-          <span className="pill">Start In Minutes</span>
-          <h1>Create your Fintrack account.</h1>
-          <p>Set up your profile and begin managing your money with a simple, clear, and secure tracker.</p>
-
-          <div className="feature-list">
-            <article>
-              <h3>Smart categorization</h3>
-              <p>Auto-organize expenses with minimal manual effort.</p>
-            </article>
-            <article>
-              <h3>Student-friendly budgets</h3>
-              <p>Flexible planning cycles tailored for variable income.</p>
-            </article>
-            <article>
-              <h3>Visual growth tracking</h3>
-              <p>Follow progress with easy, focused dashboards.</p>
-            </article>
-          </div>
-        </section>
-
-        <section className="auth-form-wrap">
-          <form className="auth-form" onSubmit={onSubmit}>
-            <h2>Create Account</h2>
-            <p>Fill in your details to get started.</p>
-
-            <label htmlFor="fullName">Full Name</label>
+        <form onSubmit={submit} className="form">
+          <label>
+            Name
             <input
-              id="fullName"
-              name="fullName"
-              type="text"
-              placeholder="Your full name"
               required
-              value={form.fullName}
-              onChange={onChange}
+              value={form.name}
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              placeholder="Your name"
             />
-
-            <label htmlFor="email">Email</label>
+          </label>
+          <label>
+            Email
             <input
-              id="email"
-              name="email"
               type="email"
-              placeholder="you@example.com"
               required
               value={form.email}
-              onChange={onChange}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              placeholder="you@email.com"
             />
+          </label>
+          <label>
+            Password
+            <input
+              type="password"
+              required
+              minLength={6}
+              value={form.password}
+              onChange={(e) => setForm({ ...form, password: e.target.value })}
+              placeholder="Min 6 characters"
+            />
+          </label>
+          <label>
+            Confirm password
+            <input
+              type="password"
+              required
+              value={form.confirm}
+              onChange={(e) => setForm({ ...form, confirm: e.target.value })}
+              placeholder="Repeat password"
+            />
+          </label>
+          {error && <p className="error">{error}</p>}
+          <button type="submit" className="btn btn-full" disabled={loading}>
+            {loading ? "Creating…" : "Create account"}
+          </button>
+        </form>
 
-            <div className="field-grid">
-              <div>
-                <label htmlFor="password">Password</label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  placeholder="Create password"
-                  required
-                  value={form.password}
-                  onChange={onChange}
-                />
-              </div>
-              <div>
-                <label htmlFor="confirmPassword">Confirm Password</label>
-                <input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  placeholder="Confirm password"
-                  required
-                  value={form.confirmPassword}
-                  onChange={onChange}
-                />
-              </div>
-            </div>
-
-            <button className="primary-btn" type="submit" disabled={isLoading}>
-              {isLoading ? "Creating..." : "Create Account"}
-            </button>
-
-            <div className="divider">or continue with</div>
-            <div className="social-row">
-              <button type="button" className="social-btn" onClick={() => onSocial("Google")}>Google</button>
-              <button type="button" className="social-btn" onClick={() => onSocial("Facebook")}>Facebook</button>
-            </div>
-
-            <p className={`form-message${isSuccess ? " success" : ""}`} role="status" aria-live="polite">
-              {message}
-            </p>
-
-            <p className="footnote">
-              Have an account? <Link to="/login">Log in</Link>
-            </p>
-            <p className="footnote">
-              <Link to="/">Back to home</Link>
-            </p>
-          </form>
-        </section>
-      </main>
-    </div>
+        <p className="auth-foot muted">
+          Have an account? <Link to="/login">Sign in</Link>
+        </p>
+      </div>
+    </Layout>
   );
 }
