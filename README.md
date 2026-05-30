@@ -32,6 +32,26 @@ npm run build
 npm start
 ```
 
+## Deploy on Render
+
+Create a new **Web Service** from this repository. Render can read `render.yaml`, or you can enter these settings manually:
+
+```text
+Build Command: npm ci && npm run build
+Start Command: npm start
+Health Check Path: /health
+```
+
+Add these environment variables in Render:
+
+```text
+NODE_ENV=production
+MONGODB_URI=your MongoDB Atlas connection string
+JWT_SECRET=a long random secret
+```
+
+The React app is built into `client/dist`, and the Express server serves it together with the `/api` routes.
+
 ## Demo account
 
 | Email | Password |
