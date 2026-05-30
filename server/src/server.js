@@ -3,8 +3,10 @@ const cors = require("cors");
 const path = require("path");
 const fs = require("fs");
 const { port } = require("./config/env");
+const { connectDatabase } = require("./config/database");
 const authRoutes = require("./routes/auth.routes");
-const { ensureDemoUser } = require("./services/userStore");
+const transactionsRoutes = require("./routes/transactions.routes");
+const { ensureDemoTransactions } = require("./seed");
 
 const app = express();
 const clientDistPath = path.resolve(process.cwd(), "client", "dist");
@@ -22,43 +24,37 @@ app.get("/health", (_req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
+app.use("/api/transactions", transactionsRoutes);
 
 app.get("/", (_req, res) => {
   if (!hasClientBuild) {
-    return res.status(503).json({
-      message: "Client app is not built. Run `npm run build` first."
-    });
+    return res.status(503).json({ message: "Run npm run build first." });
   }
-
   return res.sendFile(clientIndexPath);
 });
 
 app.get(/^\/(?!api|health).*/, (_req, res) => {
   if (!hasClientBuild) {
-    return res.status(503).json({
-      message: "Client app is not built. Run `npm run build` first."
-    });
+    return res.status(503).json({ message: "Run npm run build first." });
   }
-
   return res.sendFile(clientIndexPath);
 });
 
 app.use((err, _req, res, _next) => {
   const statusCode = err.statusCode || 500;
-  return res.status(statusCode).json({
-    message: err.message || "Something went wrong."
-  });
+  return res.status(statusCode).json({ message: err.message || "Something went wrong." });
 });
 
 async function bootstrap() {
-  await ensureDemoUser();
-
+  await connectDatabase();
+  await ensureDemoTransactions();
   app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
+    console.log(`API + static: http://localhost:${port}`);
   });
 }
 
-bootstrap().catch((error) => {
-  console.error("Failed to start server:", error);
+bootstrap().catch((err) => {
+  console.error(err.message);
+  console.error("Check MongoDB is running and MONGODB_URI in .env");
   process.exit(1);
 });
